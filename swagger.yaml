@@ -19,6 +19,12 @@ paths:
         - "questions"
       summary: "問題全件取得API"
       description: "一覧ページ用に使います．実際の問題分は詳細ページで表示"
+      parameters:
+        - name: "team_id"
+          in: "path"
+          description: "チームID"
+          required: true
+          type: "integer"
       responses:
         200:
           description: "成功時レスポンス"
@@ -43,6 +49,17 @@ paths:
         - "questions"
       summary: "問題詳細取得API"
       description: "詳細ページ用"
+      parameters:
+        - name: "team_id"
+          in: "path"
+          description: "チームID"
+          required: true
+          type: "integer"
+        - name: "question_id"
+          in: "path"
+          description: "問題ID"
+          required: true
+          type: "integer"
       responses:
         200:
           description: "成功時レスポンス"
@@ -65,6 +82,16 @@ paths:
       summary: "問題回答登録API"
       description: "回答登録API"
       parameters:
+        - name: "team_id"
+          in: "path"
+          description: "チームID"
+          required: true
+          type: "integer"
+        - name: "question_id"
+          in: "path"
+          description: "問題ID"
+          required: true
+          type: "integer"
         - name: "body"
           in: "body"
           description: "回答"
@@ -83,6 +110,17 @@ paths:
         - "questions"
       summary: "問題オープンAPI"
       description: "ここを叩いたあとに，もう一度問題取得を行う．"
+      parameters:
+        - name: "team_id"
+          in: "path"
+          description: "チームID"
+          required: true
+          type: "integer"
+        - name: "question_id"
+          in: "path"
+          description: "問題ID"
+          required: true
+          type: "integer"
       responses:
         200:
           description: "成功時レスポンス"
@@ -93,6 +131,17 @@ paths:
         - "admin/questions"
       summary: "正解用API"
       description: "問題を正解にします"
+      parameters:
+        - name: "team_id"
+          in: "path"
+          description: "チームID"
+          required: true
+          type: "integer"
+        - name: "question_id"
+          in: "path"
+          description: "問題ID"
+          required: true
+          type: "integer"
       responses:
         200:
           description: "成功時レスポンス"
@@ -126,6 +175,12 @@ paths:
         - "admin/questions"
       summary: "問題削除API"
       description: "問題を削除します"
+      parameters:
+        - name: "question_id"
+          in: "path"
+          description: "問題ID"
+          required: true
+          type: "integer"
       responses:
         200:
           description: "成功時レスポンス"
@@ -135,6 +190,11 @@ paths:
       summary: "問題更新API"
       description: "問題を更新します"
       parameters:
+        - name: "question_id"
+          in: "path"
+          description: "問題ID"
+          required: true
+          type: "integer"
         - name: "body"
           in: "body"
           description: "問題"
@@ -178,6 +238,17 @@ paths:
         - "admin/teams"
       summary: "チームメンバー登録API"
       description: "チームにメンバーを登録します"
+      parameters:
+        - name: "team_id"
+          in: "path"
+          description: "チームID"
+          required: true
+          type: "integer"
+        - name: "user_id"
+          in: "path"
+          description: "ユーザーID"
+          required: true
+          type: "integer"
       responses:
         200:
           description: "成功時レスポンス"
@@ -186,6 +257,17 @@ paths:
         - "admin/teams"
       summary: "チームメンバー削除API"
       description: "チームからメンバーを削除します"
+      parameters:
+        - name: "team_id"
+          in: "path"
+          description: "チームID"
+          required: true
+          type: "integer"
+        - name: "user_id"
+          in: "path"
+          description: "ユーザーID"
+          required: true
+          type: "integer"
       responses:
         200:
           description: "成功時レスポンス"
