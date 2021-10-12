@@ -1,0 +1,264 @@
+swagger: "2.0"
+info:
+  description: "竜王戦管理アプリ用API"
+  version: "1.0.0"
+  title: "Ryuou-Manager"
+basePath: "/v2"
+tags:
+  - name: "questions"
+  - name: "admin/questions"
+  - name: "admin/teams"
+  - name: "users"
+
+schemes:
+  - "http"
+paths:
+  /questions/{team_id}:
+    get:
+      tags:
+        - "questions"
+      summary: "問題全件取得API"
+      description: "一覧ページ用に使います．実際の問題分は詳細ページで表示"
+      responses:
+        200:
+          description: "成功時レスポンス"
+          schema:
+            type: array
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "integer"
+                title:
+                  type: "string"
+                score:
+                  type: "integer"
+                is_opened:
+                  type: "boolean"
+                is_passed:
+                  type: "boolean"
+  /questions/{team_id}/{question_id}:
+    get:
+      tags:
+        - "questions"
+      summary: "問題詳細取得API"
+      description: "詳細ページ用"
+      responses:
+        200:
+          description: "成功時レスポンス"
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+              title:
+                type: "string"
+              description:
+                type: "string"
+              score:
+                type: "integer"
+              is_passed:
+                type: "boolean"
+    post:
+      tags:
+        - "questions"
+      summary: "問題回答登録API"
+      description: "回答登録API"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "回答"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              answer:
+                type: "string"
+      responses:
+        200:
+          description: "成功時レスポンス"
+
+    put:
+      tags:
+        - "questions"
+      summary: "問題オープンAPI"
+      description: "ここを叩いたあとに，もう一度問題取得を行う．"
+      responses:
+        200:
+          description: "成功時レスポンス"
+
+  /admin/questions/{team_id}/{question_id}:
+    put:
+      tags:
+        - "admin/questions"
+      summary: "正解用API"
+      description: "問題を正解にします"
+      responses:
+        200:
+          description: "成功時レスポンス"
+
+  /admin/questions:
+    post:
+      tags:
+        - "admin/questions"
+      summary: "問題登録API"
+      description: "問題を登録します"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "問題"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              title:
+                type: "string"
+              description:
+                type: "string"
+              score:
+                type: "integer"
+      responses:
+        200:
+          description: "成功時レスポンス"
+  /admin/questions/{question_id}:
+    delete:
+      tags:
+        - "admin/questions"
+      summary: "問題削除API"
+      description: "問題を削除します"
+      responses:
+        200:
+          description: "成功時レスポンス"
+    put:
+      tags:
+        - "admin/questions"
+      summary: "問題更新API"
+      description: "問題を更新します"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "問題"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              title:
+                type: "string"
+              description:
+                type: "string"
+              score:
+                type: "integer"
+      responses:
+        200:
+          description: "成功時レスポンス"
+  /admin/teams:
+    get:
+      tags:
+        - "admin/teams"
+      summary: "チーム一覧取得API"
+      description: "チーム一覧を取得します"
+      responses:
+        200:
+          description: "成功時レスポンス"
+          schema:
+            type: array
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "integer"
+                name:
+                  type: "string"
+                score:
+                  type: "integer"
+
+  /admin/teams/{team_id}/{user_id}:
+    post:
+      tags:
+        - "admin/teams"
+      summary: "チームメンバー登録API"
+      description: "チームにメンバーを登録します"
+      responses:
+        200:
+          description: "成功時レスポンス"
+    delete:
+      tags:
+        - "admin/teams"
+      summary: "チームメンバー削除API"
+      description: "チームからメンバーを削除します"
+      responses:
+        200:
+          description: "成功時レスポンス"
+
+  /users:
+    post:
+      tags:
+        - "users"
+      summary: "ユーザー登録API"
+      description: "ユーザーを登録します"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "ユーザー"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+              email:
+                type: "string"
+              password:
+                type: "string"
+      responses:
+        200:
+          description: "成功時レスポンス"
+    get:
+      tags:
+        - "users"
+      summary: "ユーザー取得API"
+      description: "ユーザーを取得します"
+      responses:
+        200:
+          description: "成功時レスポンス"
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "integer"
+              name:
+                type: "string"
+              email:
+                type: "string"
+              score:
+                type: "integer"
+              is_admin:
+                type: "boolean"
+  /users/login:
+    post:
+      tags:
+        - "users"
+      summary: "ログインAPI"
+      description: "ユーザーをログインします"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "ログイン情報"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              email:
+                type: "string"
+              password:
+                type: "string"
+      responses:
+        200:
+          description: "成功時レスポンス"
+          schema:
+            type: object
+            properties:
+              id:
+                type: "integer"
+              session_id:
+                type: "string"
