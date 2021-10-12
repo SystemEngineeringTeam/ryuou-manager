@@ -1,14 +1,19 @@
 package dboperation
 
-import "github.com/jinzhu/gorm"
+import (
+	"fmt"
+
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+)
 
 const (
 	// DB type
-	DB_CONNECT = "mysql"
+	DB_TYPE = "mysql"
 
 	// DB settings
 	// host
-	DB_HOST = "localhost"
+	DB_HOST = "127.0.0.1"
 	// port
 	DB_PORT = "33061"
 	// username
@@ -22,8 +27,12 @@ const (
 	DB_CONNECTION = DB_USER + ":" + DB_PASS + "@tcp(" + DB_HOST + ":" + DB_PORT + ")/" + DB_NAME + "?charset=utf8&parseTime=True&loc=Local"
 )
 
+func init() {
+	fmt.Println("DB URL is ", DB_CONNECTION)
+}
+
 func gormConnect() *gorm.DB {
-	db, err := gorm.Open(DB_CONNECT, DB_CONNECTION)
+	db, err := gorm.Open(DB_TYPE, DB_CONNECTION)
 	if err != nil {
 		panic("failed to connect database")
 	}
