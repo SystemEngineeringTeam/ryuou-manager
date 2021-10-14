@@ -20,3 +20,16 @@ func SelectAllQuestionsByTeamID(teamID int) ([]model.QuestionResponse, error) {
 
 	return questions, nil
 }
+
+func SelectQuestionDetailByTeamID(teamID int, questionID int) (model.QuestionDetailResponse, error) {
+	db := gormConnect()
+	defer db.Close()
+
+	var question model.QuestionDetailResponse
+
+	if err := db.Model(&model.Question{}).Joins("join team_opened_questions on team_opened_questions.question_id=questions.id").Where("team_id=? and question_id=?", teamID, questionID).Scan(&question).Error; err != nil {
+		return question, err
+	}
+
+	return question, nil
+}
