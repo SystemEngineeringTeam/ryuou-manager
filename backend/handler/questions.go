@@ -22,6 +22,8 @@ func QuestionHandler(w http.ResponseWriter, r *http.Request) {
 		} else if len(strings.Split(r.URL.Path, "/")) == 4 {
 			getQuestionDetail(w, r)
 		}
+	case http.MethodPut:
+		putQuestion(w, r)
 	}
 }
 
@@ -89,4 +91,35 @@ func getQuestionDetail(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprint(w, string(response))
 
+}
+
+// 問題をオープンするためのハンドラ
+func putQuestion(w http.ResponseWriter, r *http.Request) {
+	teamID := strings.Split(r.URL.Path, "/")[2]
+	questionID := strings.Split(r.URL.Path, "/")[3]
+
+	numericTeamID, err := strconv.Atoi(teamID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	numericQuestionID, err := strconv.Atoi(questionID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if !dboperation.QuestionExists(numericQuestionID) || !dboperation.TeamExists(numericTeamID) {
+		http.Error(w, "Invalid TeamID or QuestionID", http.StatusBadRequest)
+		return
+	}
+
+	err = dboperation.OpenQuestion(numericTeamID, numericQuestionID)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 }
