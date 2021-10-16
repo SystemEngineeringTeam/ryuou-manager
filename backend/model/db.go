@@ -15,3 +15,11 @@ type TeamOpenedQuestion struct {
 	QuestionID int  `gorm:"question_id"`
 	IsPassed   bool `gorm:"is_passed"`
 }
+
+type Team struct {
+	ID        int       `gorm:"id"`
+	Name      string    `gorm:"name"`
+	Score     int       `gorm:"score"`
+	CreatedAt time.Time `gorm:"created_at"`
+	UpdatedAt time.Time `gorm:"updated_at"`
+}

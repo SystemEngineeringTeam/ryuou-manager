@@ -69,9 +69,14 @@ func getQuestionDetail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !dboperation.QuestionExists(numericQuestionID) || !dboperation.TeamExists(numericTeamID) {
+		http.Error(w, "Invalid TeamID or QuestionID", http.StatusBadRequest)
+		return
+	}
+
 	question, err := dboperation.SelectQuestionDetailByTeamID(numericTeamID, numericQuestionID)
 	if err != nil {
-		w.Write([]byte("error"))
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
