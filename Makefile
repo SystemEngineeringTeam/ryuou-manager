@@ -7,7 +7,7 @@ MIGRATE_FILES=migrations
 v=
 
 run:
-	cd go && go run main.go
+	cd backend && go run main.go
 
 run/air:
 	air
