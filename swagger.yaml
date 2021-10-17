@@ -147,6 +147,27 @@ paths:
           description: "成功時レスポンス"
 
   /admin/questions:
+    get:
+      tags:
+        - "admin/questions"
+      summary: "提出された問題リストを取得します"
+      responses:
+        200:
+          description: "問題一覧"
+          schema:
+            type: array
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "integer"
+                title:
+                  type: "string"
+                team_id:
+                  type: "integer"
+                question_id:
+                  type: "integer"
+
     post:
       tags:
         - "admin/questions"
