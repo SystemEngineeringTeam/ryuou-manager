@@ -18,7 +18,7 @@ func QuestionHandler(w http.ResponseWriter, r *http.Request) {
 		// /questions/{team_id}←len == 3
 		// /questions/{team_id}/{question_id}←len == 4
 		if len(strings.Split(r.URL.Path, "/")) == 3 {
-			getQuestion(w, r)
+			getQuestions(w, r)
 		} else if len(strings.Split(r.URL.Path, "/")) == 4 {
 			getQuestionDetail(w, r)
 		}
@@ -27,7 +27,7 @@ func QuestionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getQuestion(w http.ResponseWriter, r *http.Request) {
+func getQuestions(w http.ResponseWriter, r *http.Request) {
 
 	// Get the team id from the url path
 	// The request path is '/questions/{team_id}'
@@ -78,7 +78,7 @@ func getQuestionDetail(w http.ResponseWriter, r *http.Request) {
 
 	question, err := dboperation.SelectQuestionDetailByTeamID(numericTeamID, numericQuestionID)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		http.Error(w, "Question Not Opened", http.StatusInternalServerError)
 		return
 	}
 
