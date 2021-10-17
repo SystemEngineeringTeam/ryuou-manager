@@ -41,3 +41,11 @@ CREATE TABLE IF NOT EXISTS `team_opened_questions` (
   FOREIGN KEY (`team_id`) REFERENCES `teams`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`question_id`) REFERENCES `questions`(`id`) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS `team_submitted_questions`(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `team_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+);
