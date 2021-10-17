@@ -33,3 +33,14 @@ func SelectQuestionDetailByTeamID(teamID int, questionID int) (model.QuestionDet
 
 	return question, nil
 }
+
+func OpenQuestion(teamID, questionID int) error {
+	db := gormConnect()
+	defer db.Close()
+
+	if err := db.Create(&model.TeamOpenedQuestion{TeamID: teamID, QuestionID: questionID}).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
