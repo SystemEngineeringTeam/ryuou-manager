@@ -58,6 +58,17 @@ func SelectAllSubmit() ([]model.SubmitResponse, error) {
 	return submits, nil
 }
 
+func SubmitQuestion(teamID, questionID int, answer string) error {
+	db := gormConnect()
+	defer db.Close()
+
+	if err := db.Create(&model.TeamSubmittedQuestion{TeamID: teamID, QuestionID: questionID, URL: answer}).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func ChangeToCollect(teamID, questionID int) error {
 	db := gormConnect()
 	defer db.Close()
