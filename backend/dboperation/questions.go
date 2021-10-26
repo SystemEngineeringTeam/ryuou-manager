@@ -57,3 +57,14 @@ func SelectAllSubmit() ([]model.SubmitResponse, error) {
 
 	return submits, nil
 }
+
+func ChangeToCollect(teamID, questionID int) error {
+	db := gormConnect()
+	defer db.Close()
+
+	if err := db.Model(&model.TeamOpenedQuestion{}).Where("team_id=? and question_id=?", teamID, questionID).Update("is_passed", true).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
