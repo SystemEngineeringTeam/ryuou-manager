@@ -167,6 +167,8 @@ paths:
                   type: "integer"
                 question_id:
                   type: "integer"
+                url:
+                  type: "string"
 
     post:
       tags:

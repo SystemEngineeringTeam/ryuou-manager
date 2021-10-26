@@ -44,3 +44,16 @@ func OpenQuestion(teamID, questionID int) error {
 
 	return nil
 }
+
+func SelectAllSubmit() ([]model.SubmitResponse, error) {
+	db := gormConnect()
+	defer db.Close()
+
+	var submits []model.SubmitResponse
+
+	if err := db.Table("team_submitted_questions").Joins("join questions on team_submitted_questions.question_id=questions.id").Joins("join teams on team_submitted_questions.team_id=teams.id").Select("team_submitted_questions.id, title,team_id, question_id, url ", &submits).Error; err != nil {
+		return nil, err
+	}
+
+	return submits, nil
+}
