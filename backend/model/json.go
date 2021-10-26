@@ -15,3 +15,7 @@ type QuestionDetailResponse struct {
 	Score       int    `json:"score" gorm:"score"`
 	IsPassed    bool   `json:"is_passed" gorm:"is_passed"`
 }
+
+type SubmitRequest struct {
+	Answer string `json:"answer"`
+}

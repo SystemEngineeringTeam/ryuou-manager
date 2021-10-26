@@ -3,11 +3,13 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 	"strings"
 
 	"github.com/SystemEngineeringTeam/ryuou-manager/dboperation"
+	"github.com/SystemEngineeringTeam/ryuou-manager/model"
 )
 
 func QuestionHandler(w http.ResponseWriter, r *http.Request) {
@@ -24,6 +26,14 @@ func QuestionHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	case http.MethodPut:
 		putQuestion(w, r)
+
+	case http.MethodPost:
+		postQuestion(w, r)
+
+	case http.MethodOptions:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
 	}
 }
 
@@ -122,4 +132,45 @@ func putQuestion(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
+}
+
+func postQuestion(w http.ResponseWriter, r *http.Request) {
+	teamID := strings.Split(r.URL.Path, "/")[2]
+	questionID := strings.Split(r.URL.Path, "/")[3]
+
+	numericTeamID, err := strconv.Atoi(teamID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	numericQuestionID, err := strconv.Atoi(questionID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if !dboperation.QuestionExists(numericQuestionID) || !dboperation.TeamExists(numericTeamID) {
+		http.Error(w, "Invalid TeamID or QuestionID", http.StatusBadRequest)
+		return
+	}
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var answer model.SubmitRequest
+	err = json.Unmarshal(body, &answer)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if err := dboperation.SubmitQuestion(numericTeamID, numericQuestionID, answer.Answer); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 }
