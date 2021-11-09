@@ -17,3 +17,18 @@ func SelectAllTeams() []model.Team {
 
 	return teams
 }
+
+func JoinTeam(teamID, userID int) error {
+	db := gormConnect()
+	defer db.Close()
+
+	member := model.TeamMember{
+		UserID: userID,
+		TeamID: teamID,
+	}
+
+	if err := db.Create(&member).Error; err != nil {
+		return err
+	}
+	return nil
+}

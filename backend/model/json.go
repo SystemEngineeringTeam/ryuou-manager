@@ -33,3 +33,10 @@ type Team struct {
 	Name  string `gorm:"name" json:"name"`
 	Score int    `gorm:"score" json:"score"`
 }
+
+type User struct {
+	ID       int    `gorm:"id" json:"id"`
+	Name     string `gorm:"name" json:"name"`
+	Email    string `gorm:"email" json:"email"`
+	Password string `gorm:"password" json:"password"`
+}

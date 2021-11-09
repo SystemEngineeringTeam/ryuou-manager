@@ -25,3 +25,8 @@ type TeamSubmittedQuestion struct {
 	URL         string `gorm:"url"`
 	SubmittedAt int    `gorm:"submitted_at"`
 }
+
+type TeamMember struct {
+	TeamID int `gorm:"team_id"`
+	UserID int `gorm:"user_id"`
+}
