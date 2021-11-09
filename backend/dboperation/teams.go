@@ -32,3 +32,18 @@ func JoinTeam(teamID, userID int) error {
 	}
 	return nil
 }
+
+func LeaveTeam(teamID, userID int) error {
+	db := gormConnect()
+	defer db.Close()
+
+	member := model.TeamMember{
+		UserID: userID,
+		TeamID: teamID,
+	}
+
+	if err := db.Delete(&member).Error; err != nil {
+		return err
+	}
+	return nil
+}

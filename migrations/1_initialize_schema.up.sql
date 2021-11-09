@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `teams` (
 
 CREATE TABLE IF NOT EXISTS `team_members` (
   `team_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) UNIQUE NOT NULL,
   FOREIGN KEY (`team_id`) REFERENCES `teams`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
 );
