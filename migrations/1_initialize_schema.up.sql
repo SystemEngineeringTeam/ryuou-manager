@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `teams` (
 
 CREATE TABLE IF NOT EXISTS `team_members` (
   `team_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) UNIQUE NOT NULL,
   FOREIGN KEY (`team_id`) REFERENCES `teams`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
 );
@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS `team_opened_questions` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `passed_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (`team_id`) REFERENCES `teams`(`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`question_id`) REFERENCES `questions`(`id`) ON DELETE CASCADE
+  FOREIGN KEY (`question_id`) REFERENCES `questions`(`id`) ON DELETE CASCADE,
+  UNIQUE (`team_id`, `question_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `team_submitted_questions`(
