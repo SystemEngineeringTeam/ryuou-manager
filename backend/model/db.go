@@ -18,14 +18,6 @@ type TeamOpenedQuestion struct {
 	PassedAt   time.Time `gorm:"passed_at"`
 }
 
-type Team struct {
-	ID        int       `gorm:"id"`
-	Name      string    `gorm:"name"`
-	Score     int       `gorm:"score"`
-	CreatedAt time.Time `gorm:"created_at"`
-	UpdatedAt time.Time `gorm:"updated_at"`
-}
-
 type TeamSubmittedQuestion struct {
 	ID          int    `gorm:"id"`
 	TeamID      int    `gorm:"team_id"`
