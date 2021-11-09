@@ -27,3 +27,9 @@ type SubmitResponse struct {
 type SubmitRequest struct {
 	Answer string `json:"answer"`
 }
+
+type Team struct {
+	ID    int    `gorm:"id" json:"id"`
+	Name  string `gorm:"name" json:"name"`
+	Score int    `gorm:"score" json:"score"`
+}
