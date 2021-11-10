@@ -1,5 +1,10 @@
 package model
 
+import (
+	"crypto/sha256"
+	"encoding/hex"
+)
+
 type QuestionResponse struct {
 	ID          int    `json:"id" gorm:"id"`
 	Title       string `json:"title" gorm:"title"`
@@ -35,8 +40,16 @@ type Team struct {
 }
 
 type User struct {
-	ID       int    `gorm:"id" json:"id"`
+	ID       int    `gorm:"id" json:"id,omitempty"`
 	Name     string `gorm:"name" json:"name"`
 	Email    string `gorm:"email" json:"email"`
 	Password string `gorm:"password" json:"password"`
+}
+
+func (u *User) HashPassword() {
+
+	hashed := sha256.Sum256([]byte(u.Password))
+	hashedPassword := hex.EncodeToString(hashed[:])
+
+	u.Password = hashedPassword
 }
