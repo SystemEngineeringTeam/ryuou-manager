@@ -41,7 +41,7 @@ type Team struct {
 
 type User struct {
 	ID       int    `gorm:"id" json:"id,omitempty"`
-	Name     string `gorm:"name" json:"name"`
+	Name     string `gorm:"name" json:"name,omitempty"`
 	Email    string `gorm:"email" json:"email"`
 	Password string `gorm:"password" json:"password"`
 }
@@ -52,4 +52,9 @@ func (u *User) HashPassword() {
 	hashedPassword := hex.EncodeToString(hashed[:])
 
 	u.Password = hashedPassword
+}
+
+type Session struct {
+	UserID    int    `gorm:"user_id" json:"userID"`
+	SessionID string `gorm:"session_id" json:"sessionID"`
 }

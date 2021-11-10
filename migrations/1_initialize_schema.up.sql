@@ -53,3 +53,11 @@ CREATE TABLE IF NOT EXISTS `team_submitted_questions`(
   `submitted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 );
+
+CREATE TABLE IF NOT EXISTS `sessions` (
+  `user_id` int(11) UNIQUE NOT NULL,
+  `session_id` varchar(255) UNIQUE NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
+);
