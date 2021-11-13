@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/SystemEngineeringTeam/ryuou-manager/handler"
 	"github.com/gorilla/mux"
 	// "github.com/SystemEngineeringTeam/ryuou-manager/handler"
 )
@@ -11,8 +12,8 @@ func main() {
 	r := mux.NewRouter()
 
 	// /questions
-	r.HandleFunc("/questions/{team_id:[0-9]+}", nil)
-	r.HandleFunc("/questions/{team_id:[0-9]+}/{question_id:[0-9]+}", nil)
+	r.HandleFunc("/questions/{team_id:[0-9]+}", handler.SendAllQuestionHandler)
+	r.HandleFunc("/questions/{team_id:[0-9]+}/{question_id:[0-9]+}", handler.QuestionHandler)
 
 	// /users
 	r.HandleFunc("/users", nil)
@@ -27,5 +28,5 @@ func main() {
 	r.HandleFunc("/admin/teams", nil)
 	r.HandleFunc("/admin/teams/{team_id:[0-9]+}/{user_id:[0-9]+}", nil)
 
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8080", r)
 }
