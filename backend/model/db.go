@@ -4,8 +4,9 @@ import "time"
 
 type Question struct {
 	ID          int       `gorm:"id"`
-	Title       string    `gorm:"title"`
-	Description string    `gorm:"description"`
+	Title       string    `gorm:"title" json:"title"`
+	Description string    `gorm:"description" json:"description"`
+	Score       int       `gorm:"score" json:"score"`
 	CreatedAt   time.Time `gorm:"created_at"`
 	UpdatedAt   time.Time `gorm:"updated_at"`
 }

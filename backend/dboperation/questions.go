@@ -79,3 +79,14 @@ func ChangeToCollect(teamID, questionID int) error {
 
 	return nil
 }
+
+func InsertNewQuestion(question model.Question) error {
+	db := gormConnect()
+	defer db.Close()
+
+	if err := db.Create(&question).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
