@@ -5,23 +5,21 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/SystemEngineeringTeam/ryuou-manager/dboperation"
+	"github.com/gorilla/mux"
 )
 
 func AdminTeamHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
-	case http.MethodGet:
-		getAdminTeams(w, r)
 	case http.MethodPost:
-		postAdminTeams(w, r)
+		joinTeamHandler(w, r)
 	case http.MethodDelete:
-		deleteAdminTeams(w, r)
+		leftTeamHandler(w, r)
 	}
 }
 
-func getAdminTeams(w http.ResponseWriter, r *http.Request) {
+func SendAllTeamsHandler(w http.ResponseWriter, r *http.Request) {
 	teams := dboperation.SelectAllTeams()
 
 	jsonTeams, err := json.Marshal(teams)
@@ -34,10 +32,11 @@ func getAdminTeams(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, string(jsonTeams))
 }
 
-func postAdminTeams(w http.ResponseWriter, r *http.Request) {
+func joinTeamHandler(w http.ResponseWriter, r *http.Request) {
 	// admin/teams/{team_id}/{user_id}
-	teamID := strings.Split(r.URL.Path, "/")[3]
-	userID := strings.Split(r.URL.Path, "/")[4]
+	vars := mux.Vars(r)
+	teamID := vars["team_id"]
+	userID := vars["user_id"]
 
 	numericTeamID, err := strconv.Atoi(teamID)
 	if err != nil {
@@ -62,10 +61,11 @@ func postAdminTeams(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func deleteAdminTeams(w http.ResponseWriter, r *http.Request) {
+func leftTeamHandler(w http.ResponseWriter, r *http.Request) {
 	// admin/teams/{team_id}/{user_id}
-	teamID := strings.Split(r.URL.Path, "/")[3]
-	userID := strings.Split(r.URL.Path, "/")[4]
+	vars := mux.Vars(r)
+	teamID := vars["team_id"]
+	userID := vars["user_id"]
 
 	numericTeamID, err := strconv.Atoi(teamID)
 	if err != nil {
