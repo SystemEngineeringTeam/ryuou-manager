@@ -16,8 +16,8 @@ func main() {
 	r.HandleFunc("/questions/{team_id:[0-9]+}/{question_id:[0-9]+}", handler.QuestionHandler)
 
 	// /users
-	r.HandleFunc("/users", nil)
-	r.HandleFunc("/users/login", nil)
+	r.HandleFunc("/users", handler.UserHandler)
+	r.HandleFunc("/users/login", handler.LoginHandler)
 
 	// /admin/questions
 	r.HandleFunc("/admin/questions", nil)
