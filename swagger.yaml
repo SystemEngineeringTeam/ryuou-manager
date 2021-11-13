@@ -363,7 +363,7 @@ paths:
           schema:
             type: object
             properties:
-              id:
+              user_id:
                 type: "integer"
               session_id:
                 type: "string"

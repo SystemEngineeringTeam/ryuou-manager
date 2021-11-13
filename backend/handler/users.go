@@ -12,6 +12,7 @@ import (
 )
 
 func UserHandler(w http.ResponseWriter, r *http.Request) {
+
 	switch r.Method {
 	case http.MethodPost:
 		postUser(w, r)
@@ -58,4 +59,42 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprint(w, string(jsonBytes))
+}
+
+func LoginHandler(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method != "POST" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	body, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var user model.User
+
+	err = json.Unmarshal(body, &user)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+	}
+
+	user.HashPassword()
+
+	session, err := dboperation.Login(user)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	jsonSession, err := json.Marshal(session)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprint(w, string(jsonSession))
+
 }
