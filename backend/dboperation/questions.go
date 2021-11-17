@@ -14,9 +14,11 @@ func SelectAllQuestionsByTeamID(teamID int) ([]model.QuestionResponse, error) {
 
 	var questions []model.QuestionResponse
 
-	if err := db.Raw(`select questions.id,questions.title,if(id=question_id,questions.description,'Not Opened') as description,if(id=question_id,1,0) as is_opened,is_passed from questions,team_opened_questions where team_id=?;`, teamID).Scan(&questions).Error; err != nil {
-		return nil, err
-	}
+	// if err := db.Raw(`select questions.id,questions.title,if(id=question_id,questions.description,'Not Opened') as description,if(id=question_id,1,0) as is_opened,is_passed from questions,team_opened_questions where team_id=?;`, teamID).Scan(&questions).Error; err != nil {
+	// 	return nil, err
+	// }
+
+	// select questions.id, case when exists(select * from team_opened_questions where team_opened_questions.question_id = questions.id) then description else 'Question not opened' end from questions;
 
 	return questions, nil
 }
