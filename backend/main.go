@@ -21,7 +21,7 @@ func main() {
 
 	// /admin/questions
 	r.HandleFunc("/admin/questions", handler.AdminQuestionHandler)
-	r.HandleFunc("/admin/questions/{question_id:[0-9]+}", nil)
+	r.HandleFunc("/admin/questions/{question_id:[0-9]+}", handler.AdminQuestionIDHandler)
 	r.HandleFunc("/admin/questions/{team_id:[0-9]+}/{question_id:[0-9]+}", handler.CollectHandler)
 
 	// /admin/teams

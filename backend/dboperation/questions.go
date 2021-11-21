@@ -90,3 +90,16 @@ func InsertNewQuestion(question model.Question) error {
 
 	return nil
 }
+
+func DeleteQuestion(questionID int) error {
+	db := gormConnect()
+	defer db.Close()
+
+	var question model.Question
+
+	if err := db.Model(&model.Question{}).Where("id=?", questionID).Scan(&question).Delete(&question).Error; err != nil {
+		return err
+	}
+
+	return nil
+}

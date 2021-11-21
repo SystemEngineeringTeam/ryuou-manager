@@ -92,3 +92,30 @@ func createNewQuestionHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 }
+
+func AdminQuestionIDHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodDelete:
+		deleteQuestionHandler(w, r)
+	default:
+		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
+}
+
+func deleteQuestionHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	questionID := vars["question_id"]
+
+	numericQuestionID, err := strconv.Atoi(questionID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if err := dboperation.DeleteQuestion(numericQuestionID); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+}
