@@ -20,11 +20,11 @@ type TeamOpenedQuestion struct {
 }
 
 type TeamSubmittedQuestion struct {
-	ID          int    `gorm:"id"`
-	TeamID      int    `gorm:"team_id"`
-	QuestionID  int    `gorm:"question_id"`
-	URL         string `gorm:"url"`
-	SubmittedAt int    `gorm:"submitted_at"`
+	ID         int    `gorm:"id"`
+	TeamID     int    `gorm:"team_id"`
+	QuestionID int    `gorm:"question_id"`
+	URL        string `gorm:"url"`
+	CreatedAt  int    `gorm:"created_at"`
 }
 
 type TeamMember struct {
