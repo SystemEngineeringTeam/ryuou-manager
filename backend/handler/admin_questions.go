@@ -33,6 +33,14 @@ func CollectHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err := dboperation.AddScore(numericQuestionID, numericTeamID); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Println("hoge")
+
 	w.WriteHeader(http.StatusOK)
 }
 

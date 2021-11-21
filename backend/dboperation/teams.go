@@ -47,3 +47,14 @@ func LeaveTeam(teamID, userID int) error {
 	}
 	return nil
 }
+
+func AddScore(questionID, teamID int) error {
+	db := gormConnect()
+	defer db.Close()
+
+	var question model.Question
+	var team model.Team
+	db.Model(&model.Question{}).Where("id=?", questionID).Scan(&question).Model(&model.Team{}).Where("id=?", teamID).Scan(&team).Update("score", team.Score+question.Score)
+
+	return nil
+}
