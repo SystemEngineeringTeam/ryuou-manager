@@ -6,26 +6,16 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/SystemEngineeringTeam/ryuou-manager/dboperation"
 	"github.com/SystemEngineeringTeam/ryuou-manager/model"
+	"github.com/gorilla/mux"
 )
 
-func AdminQuestionHandler(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case http.MethodPut:
-		putAdminQuestion(w, r)
-	case http.MethodGet:
-		getAdminQuestion(w, r)
-	case http.MethodPost:
-		postAdminQuestion(w, r)
-	}
-}
-
-func putAdminQuestion(w http.ResponseWriter, r *http.Request) {
-	teamID := strings.Split(r.URL.Path, "/")[3]
-	questionID := strings.Split(r.URL.Path, "/")[4]
+func CollectHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	teamID := vars["team_id"]
+	questionID := vars["question_id"]
 
 	numericTeamID, err := strconv.Atoi(teamID)
 	if err != nil {
@@ -43,10 +33,29 @@ func putAdminQuestion(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err := dboperation.AddScore(numericQuestionID, numericTeamID); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Println("hoge")
+
 	w.WriteHeader(http.StatusOK)
 }
 
-func getAdminQuestion(w http.ResponseWriter, r *http.Request) {
+func AdminQuestionHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		sendAllSubmitsHandler(w, r)
+	case http.MethodPost:
+		createNewQuestionHandler(w, r)
+	default:
+		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
+}
+
+func sendAllSubmitsHandler(w http.ResponseWriter, r *http.Request) {
 	submits, err := dboperation.SelectAllSubmit()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -62,7 +71,7 @@ func getAdminQuestion(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, string(jsonBytes))
 }
 
-func postAdminQuestion(w http.ResponseWriter, r *http.Request) {
+func createNewQuestionHandler(w http.ResponseWriter, r *http.Request) {
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

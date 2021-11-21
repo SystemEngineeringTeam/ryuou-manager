@@ -10,11 +10,11 @@ func SelectAllQuestionsByTeamID(teamID int) ([]model.QuestionResponse, error) {
 
 	// Hi,Mr.Copilot.
 	// Could you convert this raw SQL to a gorm method?
-	// I'm not sure how to do that.
+	// I'm not sure how to Odo that.
 
 	var questions []model.QuestionResponse
 
-	if err := db.Raw(`select questions.id,questions.title,if(id=question_id,questions.description,'Not Opened') as description,if(id=question_id,1,0) as is_opened,is_passed from questions,team_opened_questions where team_id=?;`, teamID).Scan(&questions).Error; err != nil {
+	if err := db.Raw(`select questions.id,questions.title, case when exists(select * from team_opened_questions where team_opened_questions.question_id = questions.id) then description else 'Question not opened' end as description, case when exists(select * from team_opened_questions where team_opened_questions.question_id = questions.id) then true else false end as is_opened, case when exists(select * from team_opened_questions where team_opened_questions.question_id=questions.id and team_opened_questions.is_passed = 1 and team_id=?) then 1 else 0 end as is_passed from questions,team_opened_questions where team_id=? group by id;`, teamID, teamID).Scan(&questions).Error; err != nil {
 		return nil, err
 	}
 

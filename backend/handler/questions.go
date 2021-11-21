@@ -6,42 +6,17 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/SystemEngineeringTeam/ryuou-manager/dboperation"
 	"github.com/SystemEngineeringTeam/ryuou-manager/model"
+	"github.com/gorilla/mux"
 )
 
-func QuestionHandler(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case http.MethodGet:
-		// net/httpにはpathでパラメータを処理するリッチな機能が備わっていないため，
-		// 以下のように分割して処理する
-		// /questions/{team_id}←len == 3
-		// /questions/{team_id}/{question_id}←len == 4
-		if len(strings.Split(r.URL.Path, "/")) == 3 {
-			getQuestions(w, r)
-		} else if len(strings.Split(r.URL.Path, "/")) == 4 {
-			getQuestionDetail(w, r)
-		}
-	case http.MethodPut:
-		putQuestion(w, r)
+// 問題全件取得
+func SendAllQuestionHandler(w http.ResponseWriter, r *http.Request) {
 
-	case http.MethodPost:
-		postQuestion(w, r)
-
-	case http.MethodOptions:
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
-	}
-}
-
-func getQuestions(w http.ResponseWriter, r *http.Request) {
-
-	// Get the team id from the url path
-	// The request path is '/questions/{team_id}'
-	teamID := strings.Split(r.URL.Path, "/")[2]
+	vars := mux.Vars(r)
+	teamID := vars["team_id"]
 
 	numericTeamID, err := strconv.Atoi(teamID)
 	if err != nil {
@@ -65,9 +40,22 @@ func getQuestions(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, string(response))
 }
 
-func getQuestionDetail(w http.ResponseWriter, r *http.Request) {
-	teamID := strings.Split(r.URL.Path, "/")[2]
-	questionID := strings.Split(r.URL.Path, "/")[3]
+func QuestionHandler(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		questionDetailHandler(w, r)
+	case http.MethodPost:
+		submitQuestionHandler(w, r)
+	case http.MethodPut:
+		openQuestionHandler(w, r)
+	}
+}
+
+// 問題詳細を取得するためのハンドラ
+func questionDetailHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	teamID := vars["team_id"]
+	questionID := vars["question_id"]
 
 	numericTeamID, err := strconv.Atoi(teamID)
 	if err != nil {
@@ -100,43 +88,13 @@ func getQuestionDetail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprint(w, string(response))
-
 }
 
-// 問題をオープンするためのハンドラ
-func putQuestion(w http.ResponseWriter, r *http.Request) {
-	teamID := strings.Split(r.URL.Path, "/")[2]
-	questionID := strings.Split(r.URL.Path, "/")[3]
-
-	numericTeamID, err := strconv.Atoi(teamID)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	numericQuestionID, err := strconv.Atoi(questionID)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	if !dboperation.QuestionExists(numericQuestionID) || !dboperation.TeamExists(numericTeamID) {
-		http.Error(w, "Invalid TeamID or QuestionID", http.StatusBadRequest)
-		return
-	}
-
-	err = dboperation.OpenQuestion(numericTeamID, numericQuestionID)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	w.WriteHeader(http.StatusOK)
-}
-
-func postQuestion(w http.ResponseWriter, r *http.Request) {
-	teamID := strings.Split(r.URL.Path, "/")[2]
-	questionID := strings.Split(r.URL.Path, "/")[3]
+// 問題提出用のハンドラ
+func submitQuestionHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	teamID := vars["team_id"]
+	questionID := vars["question_id"]
 
 	numericTeamID, err := strconv.Atoi(teamID)
 	if err != nil {
@@ -172,5 +130,36 @@ func postQuestion(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
 
+// 問題をオープンするためのハンドラ
+func openQuestionHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	teamID := vars["team_id"]
+	questionID := vars["question_id"]
+
+	numericTeamID, err := strconv.Atoi(teamID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	numericQuestionID, err := strconv.Atoi(questionID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if !dboperation.QuestionExists(numericQuestionID) || !dboperation.TeamExists(numericTeamID) {
+		http.Error(w, "Invalid TeamID or QuestionID", http.StatusBadRequest)
+		return
+	}
+
+	err = dboperation.OpenQuestion(numericTeamID, numericQuestionID)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
 }

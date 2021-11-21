@@ -15,14 +15,14 @@ func UserHandler(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case http.MethodPost:
-		postUser(w, r)
+		createNewUser(w, r)
 	case http.MethodGet:
-		getUser(w, r)
+		sendAllUser(w, r)
 	}
 
 }
 
-func postUser(w http.ResponseWriter, r *http.Request) {
+func createNewUser(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		log.Fatal(err)
@@ -45,7 +45,7 @@ func postUser(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
-func getUser(w http.ResponseWriter, r *http.Request) {
+func sendAllUser(w http.ResponseWriter, r *http.Request) {
 	users, err := dboperation.SelectAllUsers()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
