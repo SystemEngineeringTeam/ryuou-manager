@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `team_submitted_questions`(
   `team_id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL,
   `url` varchar(255) NOT NULL,
-  `submitted_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 );
 
