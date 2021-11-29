@@ -16,10 +16,20 @@ func AdminTeamHandler(w http.ResponseWriter, r *http.Request) {
 		joinTeamHandler(w, r)
 	case http.MethodDelete:
 		leftTeamHandler(w, r)
+	case http.MethodOptions:
+		w.WriteHeader(http.StatusOK)
+		// allow cors
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
 	}
 }
 
 func SendAllTeamsHandler(w http.ResponseWriter, r *http.Request) {
+	// allow cors
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	teams := dboperation.SelectAllTeams()
 
 	jsonTeams, err := json.Marshal(teams)

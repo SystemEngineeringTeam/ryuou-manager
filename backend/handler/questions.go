@@ -15,6 +15,11 @@ import (
 // 問題全件取得
 func SendAllQuestionHandler(w http.ResponseWriter, r *http.Request) {
 
+	// allow cors
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+
 	vars := mux.Vars(r)
 	teamID := vars["team_id"]
 
@@ -48,6 +53,12 @@ func QuestionHandler(w http.ResponseWriter, r *http.Request) {
 		submitQuestionHandler(w, r)
 	case http.MethodPut:
 		openQuestionHandler(w, r)
+	case http.MethodOptions:
+		w.WriteHeader(http.StatusOK)
+		// allow cors
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
 	}
 }
 
