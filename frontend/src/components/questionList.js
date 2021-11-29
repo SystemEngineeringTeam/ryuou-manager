@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -10,16 +11,17 @@ import axios from "axios";
 import Path from "./.react.config.js";
 
 const QuestionList = () => {
+  const [questions, setQuestions] = React.useState();
+
   const fetchQuestions = async () => {
     const res = await axios.get(Path.Question + "/1");
-    console.log(res);
+    setQuestions(res.data);
+    console.log(questions);
   };
 
   React.useEffect(() => {
     fetchQuestions();
   }, []);
-
-  const [questions, setQuestions] = React.useState();
 
   return (
     <Table>
@@ -27,6 +29,7 @@ const QuestionList = () => {
         <TableRow>
           <TableCell>Title</TableCell>
           <TableCell>Description</TableCell>
+          <TableCell>OpenButton</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -35,6 +38,15 @@ const QuestionList = () => {
             <TableRow key={question.id}>
               <TableCell>{question.title}</TableCell>
               <TableCell>{question.description}</TableCell>
+              {question.is_opened ? (
+                <TableCell>Opened</TableCell>
+              ) : (
+                <TableCell>
+                  <Button color="primary" variant="contained">
+                    Open
+                  </Button>
+                </TableCell>
+              )}
             </TableRow>
           ))}
       </TableBody>
