@@ -18,6 +18,12 @@ func UserHandler(w http.ResponseWriter, r *http.Request) {
 		createNewUser(w, r)
 	case http.MethodGet:
 		sendAllUser(w, r)
+	case http.MethodOptions:
+		w.WriteHeader(http.StatusOK)
+		// allow cors
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
 	}
 
 }
@@ -62,6 +68,10 @@ func sendAllUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
+	// allow cors
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 
 	if r.Method != "POST" {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)

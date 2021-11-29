@@ -13,6 +13,10 @@ import (
 )
 
 func CollectHandler(w http.ResponseWriter, r *http.Request) {
+	// allow cors
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	vars := mux.Vars(r)
 	teamID := vars["team_id"]
 	questionID := vars["question_id"]
@@ -50,6 +54,12 @@ func AdminQuestionHandler(w http.ResponseWriter, r *http.Request) {
 		sendAllSubmitsHandler(w, r)
 	case http.MethodPost:
 		createNewQuestionHandler(w, r)
+	case http.MethodOptions:
+		w.WriteHeader(http.StatusOK)
+		// allow cors
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
@@ -97,6 +107,12 @@ func AdminQuestionIDHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodDelete:
 		deleteQuestionHandler(w, r)
+	case http.MethodOptions:
+		w.WriteHeader(http.StatusOK)
+		// allow cors
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
