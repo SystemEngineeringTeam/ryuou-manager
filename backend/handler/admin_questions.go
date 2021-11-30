@@ -49,19 +49,14 @@ func CollectHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminQuestionHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	switch r.Method {
 	case http.MethodGet:
 		sendAllSubmitsHandler(w, r)
 	case http.MethodPost:
 		createNewQuestionHandler(w, r)
-	case http.MethodOptions:
-		w.WriteHeader(http.StatusOK)
-		// allow cors
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "*")
-		w.Header().Set("Access-Control-Allow-Headers", "*")
-	default:
-		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
 
@@ -104,17 +99,12 @@ func createNewQuestionHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminQuestionIDHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	switch r.Method {
 	case http.MethodDelete:
 		deleteQuestionHandler(w, r)
-	case http.MethodOptions:
-		w.WriteHeader(http.StatusOK)
-		// allow cors
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "*")
-		w.Header().Set("Access-Control-Allow-Headers", "*")
-	default:
-		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
 
