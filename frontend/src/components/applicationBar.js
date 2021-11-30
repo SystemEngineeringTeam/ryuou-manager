@@ -9,6 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 const ApplicationBar = () => {
   return (
@@ -23,10 +24,18 @@ const ApplicationBar = () => {
           >
             <Menu />
           </IconButton>
-          <Typography variant="h6" color="inherit" sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="h6"
+            color="inherit"
+            sx={{ flexGrow: 1 }}
+            component={Link}
+            to="/"
+          >
             竜王戦
           </Typography>
-          <Button color="inherit">ログイン</Button>
+          <Button color="inherit" component={Link} to="/login">
+            ログイン
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>
