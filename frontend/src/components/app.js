@@ -1,9 +1,12 @@
 import React from "react";
+import ApplicationBar from "./applicationBar";
+import QuestionList from "./questionList";
 
 const App = () => {
   return (
     <div>
-      <h1>Hello, world!</h1>
+      <ApplicationBar />
+      <QuestionList />
     </div>
   );
 };

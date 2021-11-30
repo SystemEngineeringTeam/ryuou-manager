@@ -1,0 +1,36 @@
+import React from "react";
+
+import {
+  AppBar,
+  Box,
+  Button,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import { Menu } from "@mui/icons-material";
+
+const ApplicationBar = () => {
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            size="large"
+          >
+            <Menu />
+          </IconButton>
+          <Typography variant="h6" color="inherit" sx={{ flexGrow: 1 }}>
+            竜王戦
+          </Typography>
+          <Button color="inherit">ログイン</Button>
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
+};
+
+export default ApplicationBar;
