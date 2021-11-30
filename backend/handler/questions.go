@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -43,9 +44,14 @@ func SendAllQuestionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprint(w, string(response))
+	log.Println("Question fetched")
 }
 
 func QuestionHandler(w http.ResponseWriter, r *http.Request) {
+	// allow cors
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	switch r.Method {
 	case http.MethodGet:
 		questionDetailHandler(w, r)
@@ -55,10 +61,7 @@ func QuestionHandler(w http.ResponseWriter, r *http.Request) {
 		openQuestionHandler(w, r)
 	case http.MethodOptions:
 		w.WriteHeader(http.StatusOK)
-		// allow cors
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "*")
-		w.Header().Set("Access-Control-Allow-Headers", "*")
+
 	}
 }
 
@@ -173,4 +176,5 @@ func openQuestionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
+	log.Println("Question Opened")
 }

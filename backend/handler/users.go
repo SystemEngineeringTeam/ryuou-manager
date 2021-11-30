@@ -12,18 +12,14 @@ import (
 )
 
 func UserHandler(w http.ResponseWriter, r *http.Request) {
-
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	switch r.Method {
 	case http.MethodPost:
 		createNewUser(w, r)
 	case http.MethodGet:
 		sendAllUser(w, r)
-	case http.MethodOptions:
-		w.WriteHeader(http.StatusOK)
-		// allow cors
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "*")
-		w.Header().Set("Access-Control-Allow-Headers", "*")
 	}
 
 }
