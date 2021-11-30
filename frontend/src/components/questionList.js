@@ -13,15 +13,24 @@ import Path from "./.react.config.js";
 const QuestionList = () => {
   const [questions, setQuestions] = React.useState();
 
-  const fetchQuestions = async () => {
+  const fetchQuestions = async (teamID) => {
     const res = await axios.get(Path.Question + "/1");
     setQuestions(res.data);
     console.log(questions);
   };
 
+  const openQuestion = async (teamID, questionID) => {
+    await axios.put(Path.Question + "/" + teamID + "/" + questionID);
+  };
+
+  const doOpenClick = (id) => {
+    openQuestion(1, id);
+    fetchQuestions();
+  };
+
   React.useEffect(() => {
     fetchQuestions();
-  }, []);
+  }, [setQuestions]);
 
   return (
     <Table>
@@ -42,7 +51,13 @@ const QuestionList = () => {
                 <TableCell>Opened</TableCell>
               ) : (
                 <TableCell>
-                  <Button color="primary" variant="contained">
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={() => {
+                      doOpenClick(question.id);
+                    }}
+                  >
                     Open
                   </Button>
                 </TableCell>
