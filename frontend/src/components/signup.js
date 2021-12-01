@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, TextField } from "@mui/material";
 import axios from "axios";
+import Path from "./.react.config";
 
 const Signup = () => {
   const name = React.useRef();
@@ -8,15 +9,22 @@ const Signup = () => {
   const password = React.useRef();
   const confirmPassword = React.useRef();
 
-  const doSubmit = (e) => {
+  const doSubmit = async (e) => {
     e.preventDefault();
     // axios
     if (password.current.value !== confirmPassword.current.value) {
       alert("Passwords do not match");
       return;
     }
-    console.log(password.current.value);
-    console.log("submitted");
+    const res = await axios.post(Path.User, {
+      name: name.current.value,
+      email: email.current.value,
+      password: password.current.value,
+    });
+
+    if (res.status === 201) {
+      alert("User created successfully");
+    }
   };
   return (
     <div>
