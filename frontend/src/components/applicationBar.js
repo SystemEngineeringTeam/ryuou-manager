@@ -33,6 +33,9 @@ const ApplicationBar = () => {
           >
             竜王戦
           </Typography>
+          <Button color="inherit" component={Link} to="/signup">
+            登録
+          </Button>
           <Button color="inherit" component={Link} to="/login">
             ログイン
           </Button>
