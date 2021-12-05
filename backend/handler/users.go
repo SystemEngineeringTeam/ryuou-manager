@@ -69,7 +69,12 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 
-	if r.Method != "POST" {
+	if r.Method == http.MethodOptions {
+
+		return
+	}
+
+	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
