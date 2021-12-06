@@ -4,6 +4,7 @@ import QuestionList from "./questionList";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Signup from "./signup";
 import Login from "./login";
+import QuestionInfo from "./questionInfo";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="list" element={<QuestionList />} />
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
+        <Route path="questionInfo/:id" element={<QuestionInfo />} />
       </Routes>
     </BrowserRouter>
   );
