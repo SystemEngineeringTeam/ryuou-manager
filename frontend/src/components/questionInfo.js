@@ -1,13 +1,40 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import {} from "@mui/material";
+import { Typography } from "@mui/material";
+import axios from "axios";
+import Path from "./.react.config";
+import { Box } from "@mui/system";
+import { Grid } from "@mui/material";
+import AnswerForm from "./answerForm";
 
 const QuestionInfo = () => {
   const { id } = useParams();
 
-  console.log(id);
+  const [question, setQuestion] = React.useState({});
 
-  return <div>{id}</div>;
+  const fetchQuestion = async () => {
+    const res = await axios.get(Path.Question + "/1/" + id);
+    setQuestion(res.data);
+  };
+
+  React.useEffect(() => {
+    fetchQuestion();
+  }, []);
+
+  return (
+    <Box style={{ height: "100%" }}>
+      <Grid container alignItems="center" justifyContent="center">
+        <Grid item xs={8}>
+          <Typography variant="h4">{question.title}</Typography>
+          <hr />
+          <Typography gutterBottom variant="h6">
+            {question.description}
+          </Typography>
+          <AnswerForm />
+        </Grid>
+      </Grid>
+    </Box>
+  );
 };
 
 export default QuestionInfo;

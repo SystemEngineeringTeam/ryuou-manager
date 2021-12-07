@@ -29,7 +29,7 @@ const ApplicationBar = () => {
             color="inherit"
             sx={{ flexGrow: 1 }}
             component={Link}
-            to="/"
+            to="/list"
           >
             竜王戦
           </Typography>

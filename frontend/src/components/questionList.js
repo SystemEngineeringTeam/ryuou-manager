@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import Path from "./.react.config.js";
+import { Link } from "react-router-dom";
 
 const QuestionList = () => {
   const [questions, setQuestions] = React.useState([]);
@@ -47,7 +48,16 @@ const QuestionList = () => {
               <TableCell>{question.title}</TableCell>
               <TableCell>{question.description}</TableCell>
               {question.is_opened ? (
-                <TableCell>Opened</TableCell>
+                <TableCell>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    component={Link}
+                    to={"/questionInfo/" + question.id}
+                  >
+                    詳細
+                  </Button>
+                </TableCell>
               ) : (
                 <TableCell>
                   <Button
