@@ -30,7 +30,7 @@ const QuestionInfo = () => {
           <Typography gutterBottom variant="h6">
             {question.description}
           </Typography>
-          <AnswerForm />
+          <AnswerForm questionID={id} />
         </Grid>
       </Grid>
     </Box>
