@@ -1,10 +1,10 @@
 import React from "react";
 import ApplicationBar from "./applicationBar";
-import QuestionList from "./questionList";
+import QuestionList from "./questions/list/questionList";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Signup from "./signup";
 import Login from "./login";
-import QuestionInfo from "./questionInfo";
+import QuestionInfo from "./questions/list/questionInfo";
 
 const App = () => {
   return (

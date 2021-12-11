@@ -2,10 +2,10 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { Typography } from "@mui/material";
 import axios from "axios";
-import Path from "./.react.config";
+import Path from "../../.react.config";
 import { Box } from "@mui/system";
 import { Grid } from "@mui/material";
-import AnswerForm from "./answerForm";
+import AnswerForm from "./questions/answerForm";
 
 const QuestionInfo = () => {
   const { id } = useParams();

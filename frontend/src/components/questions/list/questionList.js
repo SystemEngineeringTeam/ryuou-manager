@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@mui/material";
 import axios from "axios";
-import Path from "./.react.config.js";
+import Path from "../../.react.config.js";
 import { Link } from "react-router-dom";
 
 const QuestionList = () => {
