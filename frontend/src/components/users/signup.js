@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, TextField } from "@mui/material";
 import axios from "axios";
-import Path from "./.react.config";
+import Path from "../.react.config";
 
 const Signup = () => {
   const name = React.useRef();

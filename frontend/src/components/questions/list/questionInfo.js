@@ -5,7 +5,7 @@ import axios from "axios";
 import Path from "../../.react.config";
 import { Box } from "@mui/system";
 import { Grid } from "@mui/material";
-import AnswerForm from "./questions/answerForm";
+import AnswerForm from "../answerForm/answerForm";
 
 const QuestionInfo = () => {
   const { id } = useParams();

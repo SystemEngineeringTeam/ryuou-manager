@@ -2,8 +2,8 @@ import React from "react";
 import ApplicationBar from "./applicationBar";
 import QuestionList from "./questions/list/questionList";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Signup from "./signup";
-import Login from "./login";
+import Signup from "./users/signup";
+import Login from "./users/login";
 import QuestionInfo from "./questions/list/questionInfo";
 
 const App = () => {

@@ -2,7 +2,7 @@ import { Button, Grid, Paper, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import React from "react";
-import Path from "./.react.config";
+import Path from "../../.react.config";
 
 const AnswerForm = (props) => {
   const answer = React.useRef();
