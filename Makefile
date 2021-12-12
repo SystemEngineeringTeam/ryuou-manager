@@ -1,10 +1,12 @@
-.PHONY: run
+.PHONY: run-plus
 COMPOSE=docker-compose
 DOCKER=docker
 DB=ryuou-manager-db
 DB_URI="mysql://root:my-secret-pw@tcp(127.0.0.1:33061)/ryuou_manager_db"
 MIGRATE_FILES=migrations
 v=
+
+run-plus: db/up run
 
 run:
 	cd backend && go run main.go
