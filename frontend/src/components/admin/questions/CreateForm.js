@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Paper, TextField, Grid } from "@mui/material";
 import Path from "../../.react.config";
 import axios from "axios";
 
@@ -8,30 +8,68 @@ const CreateForm = () => {
   const description = React.useRef(null);
   const score = React.useRef(null);
 
-  const doSubmit = async () => {
-    await axios.post(Path.Admin.Questions);
+  const doSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      title: title.current.value,
+      description: description.current.value,
+      score: Number(score.current.value),
+    };
+
+    const res = await axios.post(Path.Admin.Question, data);
+    console.log(res);
   };
 
-  console.log("hogeoge");
-
   return (
-    <Box>
-      <form onSubmit={doSubmit}>
-        <TextField required type="text" inputRef={title} placeholder="Title" />
-        <TextField
-          required
-          type="text"
-          inputRef={description}
-          placeholder="Description"
-        />
-        <TextField
-          required
-          type="number"
-          inputRef={score}
-          placeholder="Score"
-        />
-        <Button type="submit">Create</Button>
-      </form>
+    <Box
+      sx={{
+        display: "flex",
+        "& > :not(style)": {
+          m: 1,
+          width: "70%",
+          height: "60%",
+          margin: "auto",
+        },
+      }}
+    >
+      <Paper>
+        <form onSubmit={doSubmit}>
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            style={{ padding: "20px", margin: "20px" }}
+          >
+            <TextField
+              required
+              type="text"
+              inputRef={title}
+              placeholder="Title"
+              style={{ width: "90%", marginBottom: "20px" }}
+            />
+            <TextField
+              required
+              type="text"
+              inputRef={description}
+              placeholder="Description"
+              multiline
+              rows={5}
+              style={{ width: "90%", marginBottom: "20px" }}
+            />
+            <TextField
+              required
+              type="number"
+              inputRef={score}
+              placeholder="Score"
+              style={{ width: "90%", marginBottom: "20px" }}
+            />
+            <Button type="submit" variant="contained">
+              Create
+            </Button>
+          </Grid>
+        </form>
+      </Paper>
     </Box>
   );
 };

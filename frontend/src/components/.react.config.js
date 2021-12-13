@@ -4,8 +4,8 @@ const Path = {
   Question: baseURL + "/questions",
   User: baseURL + "/users",
   Login: baseURL + "/users/login",
-  AdminQuestion: baseURL + "/admin/questions",
   Admin: {
+    Question: baseURL + "/admin/questions",
     User: baseURL + "/admin/users",
     Team: baseURL + "/admin/teams",
   },
