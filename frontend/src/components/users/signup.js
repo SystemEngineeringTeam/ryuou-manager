@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Grid, Paper } from "@mui/material";
 import axios from "axios";
 import Path from "../.react.config";
 
@@ -29,17 +29,26 @@ const Signup = () => {
   return (
     <div>
       <form onSubmit={doSubmit}>
-        <TextField type="text" label="UserName" inputRef={name} />
-        <TextField type="email" label="Email" inputRef={email} />
-        <TextField type="password" label="Password" inputRef={password} />
-        <TextField
-          type="password"
-          label="Confirm Password"
-          inputRef={confirmPassword}
-        />
-        <Button type="submit" variant="contained" color="primary">
-          登録
-        </Button>
+        <Paper>
+          <Grid
+            container
+            alignItems="center"
+            justifyContent="space-between"
+            direction="column"
+          >
+            <TextField type="text" label="UserName" inputRef={name} />
+            <TextField type="email" label="Email" inputRef={email} />
+            <TextField type="password" label="Password" inputRef={password} />
+            <TextField
+              type="password"
+              label="Confirm Password"
+              inputRef={confirmPassword}
+            />
+            <Button type="submit" variant="contained" color="primary">
+              登録
+            </Button>
+          </Grid>
+        </Paper>
       </form>
     </div>
   );
