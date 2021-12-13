@@ -5,6 +5,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Signup from "./users/signup";
 import Login from "./users/login";
 import QuestionInfo from "./questions/list/questionInfo";
+import CreateForm from "./admin/questions/CreateForm";
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
         <Route path="questionInfo/:id" element={<QuestionInfo />} />
+        <Route path="admin/questions/create" element={<CreateForm />} />
       </Routes>
     </BrowserRouter>
   );
