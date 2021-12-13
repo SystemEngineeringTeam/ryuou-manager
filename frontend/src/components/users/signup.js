@@ -1,7 +1,9 @@
 import React from "react";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Grid, Paper, Box } from "@mui/material";
 import axios from "axios";
 import Path from "../.react.config";
+
+//
 
 const Signup = () => {
   const name = React.useRef();
@@ -26,21 +28,54 @@ const Signup = () => {
       alert("User created successfully");
     }
   };
+
   return (
     <div>
-      <form onSubmit={doSubmit}>
-        <TextField type="text" label="UserName" inputRef={name} />
-        <TextField type="email" label="Email" inputRef={email} />
-        <TextField type="password" label="Password" inputRef={password} />
-        <TextField
-          type="password"
-          label="Confirm Password"
-          inputRef={confirmPassword}
-        />
-        <Button type="submit" variant="contained" color="primary">
-          登録
-        </Button>
-      </form>
+      <Box
+        sx={{
+          display: "flex",
+          "& > :not(style)": {
+            m: 1,
+            width: 800,
+            height: 450,
+            margin: "auto",
+          },
+        }}
+      >
+        <Paper variant="outlined">
+          <Grid container justifyContent="center" alignItems="center">
+            <form onSubmit={doSubmit}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  "& .MuiTextField-root": { width: "25ch" },
+                }}
+              >
+                <TextField label="UserName" margin="normal" inputRef={name} />
+                <TextField label="email" margin="normal" inputRef={email} />
+                <TextField
+                  type="password"
+                  label="Password"
+                  inputRef={password}
+                  margin="normal"
+                />
+                <TextField
+                  type="password"
+                  label="Confirm Password"
+                  inputRef={confirmPassword}
+                  margin="normal"
+                />
+              </Box>
+              <Box sx={{ mx: "6rem", my: "2rem" }}>
+                <Button type="submit" variant="contained" color="primary">
+                  登録
+                </Button>
+              </Box>
+            </form>
+          </Grid>
+        </Paper>
+      </Box>
     </div>
   );
 };
