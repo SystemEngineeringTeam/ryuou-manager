@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 const ApplicationBar = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ marginBottom: "20px" }}>
         <Toolbar>
           <IconButton
             edge="start"
