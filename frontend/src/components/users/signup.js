@@ -37,7 +37,7 @@ const Signup = () => {
           "& > :not(style)": {
             m: 1,
             width: 800,
-            height: 450,
+            height: 500,
             margin: "auto",
           },
         }}
@@ -45,6 +45,7 @@ const Signup = () => {
         <Paper variant="outlined">
           <Grid container justifyContent="center" alignItems="center">
             <form onSubmit={doSubmit}>
+              <h1>SignUp</h1>
               <Box
                 sx={{
                   display: "flex",
@@ -53,6 +54,7 @@ const Signup = () => {
                 }}
               >
                 <TextField label="UserName" margin="normal" inputRef={name} />
+
                 <TextField label="email" margin="normal" inputRef={email} />
                 <TextField
                   type="password"
