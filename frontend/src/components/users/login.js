@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Grid, Paper } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import React from "react";
@@ -18,15 +18,47 @@ const Login = () => {
   };
 
   return (
-    <Box>
-      <h1>Login</h1>
-      <form onSubmit={doSubmit}>
-        <TextField placeholder="email" type="email" inputRef={email} />
-        <TextField placeholder="password" type="password" inputRef={password} />
-        <Button type="submit" variant="contained">
-          Login
-        </Button>
-      </form>
+    <Box
+      sx={{
+        m: 1,
+        width: 800,
+        height: 450,
+        margin: "auto",
+      }}
+    >
+      <Paper variant="outlined">
+        <Grid container justifyContent="center" alignItems="center">
+          <form onSubmit={doSubmit}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                "& .MuiTextField-root": { width: "25ch" },
+              }}
+            >
+              <h1>Login</h1>
+              <TextField
+                placeholder="email"
+                type="email"
+                inputRef={email}
+                margin="normal"
+              />
+              <TextField
+                placeholder="password"
+                type="password"
+                inputRef={password}
+                margin="normal"
+              />
+            </Box>
+
+            <Box sx={{ mx: "6rem", my: "2rem" }}>
+              <Button type="submit" variant="contained">
+                Login
+              </Button>
+            </Box>
+          </form>
+        </Grid>
+      </Paper>
     </Box>
   );
 };
