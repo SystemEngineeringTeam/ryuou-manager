@@ -44,8 +44,6 @@ func CollectHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("hoge")
-
 	w.WriteHeader(http.StatusOK)
 }
 

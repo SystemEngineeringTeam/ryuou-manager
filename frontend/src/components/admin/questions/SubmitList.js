@@ -24,13 +24,17 @@ const SubmitList = () => {
     fetchSubmitList();
   }, []);
 
+  const toPass = async (teamID, questionID) => {
+    await axios.put(Path.Admin.Question + "/" + teamID + "/" + questionID);
+    await fetchSubmitList();
+  };
+
   return (
     <Box>
       <h1>Submit List</h1>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>ID</TableCell>
             <TableCell>Title</TableCell>
             <TableCell>URL</TableCell>
             <TableCell>TeamID</TableCell>
@@ -41,13 +45,24 @@ const SubmitList = () => {
           {submits &&
             submits.map((submit) => {
               return (
-                <TableRow>
-                  <TableCell>{submit.id}</TableCell>
+                <TableRow key={submit.id}>
                   <TableCell>{submit.title}</TableCell>
                   <TableCell>{submit.url}</TableCell>
                   <TableCell>{submit.team_id}</TableCell>
                   <TableCell>
-                    <Button variant="contained" color="primary">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        if (
+                          window.confirm(
+                            "正解にしますか？この操作は取り消しできません"
+                          )
+                        ) {
+                          toPass(submit.team_id, submit.question_id);
+                        }
+                      }}
+                    >
                       Pass
                     </Button>
                   </TableCell>
