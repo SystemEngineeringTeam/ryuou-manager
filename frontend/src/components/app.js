@@ -6,6 +6,7 @@ import Signup from "./users/signup";
 import Login from "./users/login";
 import QuestionInfo from "./questions/list/questionInfo";
 import CreateForm from "./admin/questions/CreateForm";
+import SubmitList from "./admin/questions/SubmitList";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="login" element={<Login />} />
         <Route path="questionInfo/:id" element={<QuestionInfo />} />
         <Route path="admin/questions/create" element={<CreateForm />} />
+        <Route path="admin/submits" element={<SubmitList />} />
       </Routes>
     </BrowserRouter>
   );
