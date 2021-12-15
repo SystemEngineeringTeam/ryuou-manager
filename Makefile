@@ -15,7 +15,7 @@ run/air:
 	air
 
 build:
-	cd go && go build -o ../tmp/main main.go
+	cd backend && go build -o ./tmp/main main.go
 
 db/up:
 	$(COMPOSE) up -d --build
