@@ -60,7 +60,8 @@ func (u *User) HashPassword() {
 	u.Password = hashedPassword
 }
 
-type Session struct {
-	UserID    int    `gorm:"user_id" json:"userID"`
-	SessionID string `gorm:"session_id" json:"sessionID"`
+type LoginResponse struct {
+	UserID    int    `json:"user_id"`
+	TeamID    int    `json:"team_id"`
+	SessionID string `json:"session_id"`
 }
