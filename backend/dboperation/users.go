@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
+	"log"
 	"time"
 
 	"github.com/SystemEngineeringTeam/ryuou-manager/model"
@@ -50,9 +51,10 @@ func Login(user model.User) (model.LoginResponse, error) {
 	}
 
 	var member model.TeamMember
-	if err := db.Model(&model.User{}).Joins("left join team_members on users.id = team_members.user_id").Where("email = ? and password = ?", user.Email, user.Password).First(&user).Scan(&member).Error; err != nil {
+	if err := db.Model(&model.User{}).Joins("left join team_members on users.id = team_members.user_id").Where("email = ? and password = ?", user.Email, user.Password).Select("`users`.*,team_id").First(&user).Scan(&member).Error; err != nil {
 		return model.LoginResponse{}, err
 	}
+	log.Println(member)
 
 	if user.ID == 0 {
 		return model.LoginResponse{}, errors.New("user not found")
