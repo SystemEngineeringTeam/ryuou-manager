@@ -10,12 +10,30 @@ import {
 import axios from "axios";
 import Path from "../../.react.config.js";
 import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const QuestionList = () => {
   const [questions, setQuestions] = React.useState([]);
+  const [cookies, setCookies, removeCookies] = useCookies();
 
-  const fetchQuestions = async (teamID) => {
-    const res = await axios.get(Path.Question + "/1");
+  const fetchQuestions = async () => {
+    if (
+      cookies.teamID === undefined ||
+      cookies.teamID === null ||
+      cookies.teamID === "" ||
+      cookies.teamID === 0
+    ) {
+      setQuestions([
+        {
+          id: 0,
+          title: "Please login",
+          description: "Please login",
+          is_opened: true,
+        },
+      ]);
+      return;
+    }
+    const res = await axios.get(Path.Question + "/" + cookies.teamID);
     setQuestions(res.data);
   };
 
@@ -48,16 +66,29 @@ const QuestionList = () => {
               <TableCell>{question.title}</TableCell>
               <TableCell>{question.description}</TableCell>
               {question.is_opened ? (
-                <TableCell>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    component={Link}
-                    to={"/questionInfo/" + question.id}
-                  >
-                    詳細
-                  </Button>
-                </TableCell>
+                question.id === 0 ? (
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      component={Link}
+                      to={"/login"}
+                    >
+                      ログイン
+                    </Button>
+                  </TableCell>
+                ) : (
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      component={Link}
+                      to={"/questionInfo/" + question.id}
+                    >
+                      詳細
+                    </Button>
+                  </TableCell>
+                )
               ) : (
                 <TableCell>
                   <Button

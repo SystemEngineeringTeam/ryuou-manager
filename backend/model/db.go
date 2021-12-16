@@ -31,3 +31,8 @@ type TeamMember struct {
 	TeamID int `gorm:"team_id"`
 	UserID int `gorm:"user_id"`
 }
+
+type Session struct {
+	UserID    int    `gorm:"user_id"`
+	SessionID string `gorm:"session_id"`
+}

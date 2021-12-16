@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
+	"log"
 	"time"
 
 	"github.com/SystemEngineeringTeam/ryuou-manager/model"
@@ -32,16 +33,31 @@ func SelectAllUsers() ([]model.User, error) {
 	return users, nil
 }
 
-func Login(user model.User) (model.Session, error) {
+func Login(user model.User) (model.LoginResponse, error) {
 	db := gormConnect()
 	defer db.Close()
 
-	if err := db.Where("email = ? and password = ?", user.Email, user.Password).First(&user).Error; err != nil {
-		return model.Session{}, err
+	const (
+		adminMail     = "admin@admin.admin"
+		adminPassword = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+	)
+
+	if user.Email == adminMail && user.Password == adminPassword {
+		return model.LoginResponse{
+			UserID:    -1,
+			TeamID:    -1,
+			SessionID: "admin",
+		}, nil
 	}
 
+	var member model.TeamMember
+	if err := db.Model(&model.User{}).Joins("left join team_members on users.id = team_members.user_id").Where("email = ? and password = ?", user.Email, user.Password).Select("`users`.*,team_id").First(&user).Scan(&member).Error; err != nil {
+		return model.LoginResponse{}, err
+	}
+	log.Println(member)
+
 	if user.ID == 0 {
-		return model.Session{}, errors.New("user not found")
+		return model.LoginResponse{}, errors.New("user not found")
 	}
 
 	var oldSession model.Session
@@ -58,8 +74,12 @@ func Login(user model.User) (model.Session, error) {
 	}
 
 	if err := db.Create(&session).Error; err != nil {
-		return model.Session{}, err
+		return model.LoginResponse{}, err
 	}
 
-	return session, nil
+	return model.LoginResponse{
+		UserID:    user.ID,
+		TeamID:    member.TeamID,
+		SessionID: token,
+	}, nil
 }
