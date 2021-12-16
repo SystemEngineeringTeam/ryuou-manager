@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -43,8 +44,6 @@ func CollectHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println("hoge")
-
 	w.WriteHeader(http.StatusOK)
 }
 
@@ -83,12 +82,18 @@ func createNewQuestionHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var question model.Question
+	var q model.QuestionCreateRequest
 
-	if err := json.Unmarshal(b, &question); err != nil {
+	if err := json.Unmarshal(b, &q); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		log.Println(err)
 		return
 	}
+
+	var question model.Question
+	question.Title = q.Title
+	question.Description = q.Description
+	question.Score = q.Score
 
 	if err := dboperation.InsertNewQuestion(question); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

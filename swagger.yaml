@@ -254,6 +254,40 @@ paths:
                   type: "string"
                 score:
                   type: "integer"
+    post:
+      tags:
+        - "admin/teams"
+      summary: "チーム作成API"
+      description: "チームを作成します"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "問題"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+      responses:
+        200:
+          description: "成功時レスポンス"
+
+  /admin/teams/{team_id}:
+    delete:
+      tags:
+        - "admin/teams"
+      summary: "チーム削除API"
+      description: "チームを削除します"
+      parameters:
+        - name: "team_id"
+          in: "path"
+          description: "チームID"
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: "成功時レスポンス"
 
   /admin/teams/{team_id}/{user_id}:
     post:
