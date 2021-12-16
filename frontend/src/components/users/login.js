@@ -42,12 +42,14 @@ const Login = () => {
                 type="email"
                 inputRef={email}
                 margin="normal"
+                label="email"
               />
               <TextField
                 placeholder="password"
                 type="password"
-                inputRef={password}
+                ninputRef={password}
                 margin="normal"
+                label="password"
               />
             </Box>
 
