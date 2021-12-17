@@ -8,11 +8,12 @@ const Frame = () => {
   const teamName = React.useRef();
 
   const doSubmit = async (e) => {
-    const res = await axios.post(Path.Login, {
+    const res = await axios.post(Path.Team, {
       teamName: teamName.current.value,
     });
     console.log(res);
   };
+
   return (
     <Box
       sx={{

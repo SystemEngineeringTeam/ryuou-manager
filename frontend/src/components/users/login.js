@@ -55,7 +55,7 @@ const Login = () => {
 
             <Box sx={{ mx: "6rem", my: "2rem" }}>
               <Button type="submit" variant="contained">
-                Login
+                ログイン
               </Button>
             </Box>
           </form>

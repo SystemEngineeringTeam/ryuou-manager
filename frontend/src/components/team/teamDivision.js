@@ -9,12 +9,23 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import Path from "../.react.config";
 
 const Frame = () => {
   const [teamName, setTeamName] = React.useState("");
   const [userName, setUserName] = React.useState("");
+
+  const [team, setTeam] = React.useState(null);
+
+  useEffect(() => {
+    axios.get(Path.Team).then((res) => {
+      setTeam(res.data);
+      console.log(res.data);
+    });
+  }, []);
+
+  console.log(team);
 
   const handleTeamChange = (event) => {
     setTeamName(event.target.value);
