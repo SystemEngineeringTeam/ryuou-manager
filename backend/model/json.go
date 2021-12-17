@@ -49,7 +49,7 @@ type User struct {
 	ID       int    `gorm:"id" json:"id,omitempty"`
 	Name     string `gorm:"name" json:"name,omitempty"`
 	Email    string `gorm:"email" json:"email"`
-	Password string `gorm:"password" json:"password"`
+	Password string `gorm:"password" json:"password,omitempty"`
 }
 
 func (u *User) HashPassword() {
@@ -64,4 +64,12 @@ type LoginResponse struct {
 	UserID    int    `json:"user_id"`
 	TeamID    int    `json:"team_id"`
 	SessionID string `json:"session_id"`
+}
+
+type UsersResponse struct {
+	ID       int    `gorm:"id" json:"id,omitempty"`
+	Name     string `gorm:"name" json:"name,omitempty"`
+	Email    string `gorm:"email" json:"email"`
+	Password string `gorm:"password" json:"password,omitempty"`
+	TeamID   int    `gorm:"team_id,omitempty" json:"teamID"`
 }

@@ -21,12 +21,12 @@ func CreateUser(user model.User) error {
 	return nil
 }
 
-func SelectAllUsers() ([]model.User, error) {
+func SelectAllUsers() ([]model.UsersResponse, error) {
 	db := gormConnect()
 	defer db.Close()
 
-	var users []model.User
-	if err := db.Find(&users).Error; err != nil {
+	var users []model.UsersResponse
+	if err := db.Model(&model.User{}).Joins("left join team_members on users.id = team_members.user_id").Select("id,name,email,team_id").Scan(&users).Error; err != nil {
 		return nil, err
 	}
 
