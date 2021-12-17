@@ -73,3 +73,10 @@ type UsersResponse struct {
 	Password string `gorm:"password" json:"password,omitempty"`
 	TeamID   int    `gorm:"team_id,omitempty" json:"teamID"`
 }
+
+type RankingResponse struct {
+	Rank   int    `json:"rank"`
+	TeamID int    `json:"teamID"`
+	Name   string `json:"name"`
+	Score  int    `json:"score"`
+}
