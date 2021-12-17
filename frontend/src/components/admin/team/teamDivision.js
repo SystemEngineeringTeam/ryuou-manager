@@ -57,10 +57,17 @@ const Frame = () => {
       }
     });
 
-    const res = await axios.post(
-      Path.Admin.Team + "/" + teamID + "/" + userID,
-      {}
-    );
+    axios.post(Path.Admin.Team + "/" + teamID + "/" + userID, {});
+  };
+
+  const doDelete = async (e) => {
+    userList.forEach((user) => {
+      if (user.name === userName) {
+        userID = user.id;
+      }
+    });
+
+    axios.delete(Path.Admin.Team + "/" + userID, {});
   };
 
   return (
@@ -94,7 +101,7 @@ const Frame = () => {
                 margin: "auto",
               }}
             >
-              <h1>チーム分け</h1>
+              <h1>チーム管理</h1>
             </Box>
 
             {/* <Box
@@ -167,11 +174,23 @@ const Frame = () => {
             </Box>
           </Box>
 
-          <Box sx={{ mx: "6rem", my: "2rem" }}>
-            <Button type="submit" variant="contained" onClick={doSubmit}>
-              決定
+          <Grid item xs={6}>
+            <Box sx={{ ml: "8rem", my: "2rem" }}>
+              <Button type="submit" variant="contained" onClick={doSubmit}>
+                チーム分け
+              </Button>
+            </Box>
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              type="submit"
+              variant="contained"
+              onClick={doSubmit}
+              color="error"
+            >
+              チーム除去
             </Button>
-          </Box>
+          </Grid>
         </Grid>
       </Paper>
     </Box>
