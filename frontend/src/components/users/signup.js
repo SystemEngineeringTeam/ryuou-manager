@@ -16,6 +16,7 @@ const Signup = () => {
 
   const doSubmit = async (e) => {
     e.preventDefault();
+
     // axios
     if (password.current.value !== confirmPassword.current.value) {
       alert("Passwords do not match");

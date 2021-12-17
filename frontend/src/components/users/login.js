@@ -22,6 +22,8 @@ const Login = () => {
     setCookie("sessionID", res.data.session_id);
   };
 
+  console.log(cookie.userID);
+
   return (
     <Box
       sx={{
@@ -47,18 +49,20 @@ const Login = () => {
                 type="email"
                 inputRef={email}
                 margin="normal"
+                label="email"
               />
               <TextField
                 placeholder="password"
                 type="password"
                 inputRef={password}
                 margin="normal"
+                label="password"
               />
             </Box>
 
             <Box sx={{ mx: "6rem", my: "2rem" }}>
               <Button type="submit" variant="contained">
-                Login
+                ログイン
               </Button>
             </Box>
           </form>
