@@ -8,3 +8,16 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: my-secret-pw
       MYSQL_DATABASE: ryuou_manager_db
+
+  golang:
+    image: golang:1.17-alpine
+    container_name: ryuou-manager-backend
+    ports:
+      - "127.0.0.1:8080:8080"
+    command:
+      - "go"
+      - "run"
+      - "main.go"
+    working_dir: /app
+    volumes:
+      - ./backend:/app
