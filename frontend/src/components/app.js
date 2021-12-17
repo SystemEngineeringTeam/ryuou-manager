@@ -9,6 +9,7 @@ import TeamCreate from "./admin/team/teamCreate";
 import TeamDivision from "./admin/team/teamDivision";
 import CreateForm from "./admin/questions/CreateForm";
 import SubmitList from "./admin/questions/SubmitList";
+import MembersList from "./admin/team/MembersList";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="questionInfo/:id" element={<QuestionInfo />} />
         <Route path="admin/team/create" element={<TeamCreate />} />
         <Route path="admin/team/division" element={<TeamDivision />} />
+        <Route path="admin/team/members" element={<MembersList />} />
         <Route path="admin/questions/create" element={<CreateForm />} />
         <Route path="admin/submits" element={<SubmitList />} />
       </Routes>
