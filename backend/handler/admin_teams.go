@@ -47,18 +47,6 @@ func AdminTeamRemoveHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func AdminTeamWithIDHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "*")
-	switch r.Method {
-	case http.MethodPost:
-		joinTeamHandler(w, r)
-	case http.MethodDelete:
-		leftTeamHandler(w, r)
-	}
-}
-
 func sendAllTeamsHandler(w http.ResponseWriter, r *http.Request) {
 	// allow cors
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -76,7 +64,10 @@ func sendAllTeamsHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, string(jsonTeams))
 }
 
-func joinTeamHandler(w http.ResponseWriter, r *http.Request) {
+func JoinTeamHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	// admin/teams/{team_id}/{user_id}
 	vars := mux.Vars(r)
 	teamID := vars["team_id"]
@@ -105,17 +96,13 @@ func joinTeamHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func leftTeamHandler(w http.ResponseWriter, r *http.Request) {
+func LeftTeamHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	// admin/teams/{team_id}/{user_id}
 	vars := mux.Vars(r)
-	teamID := vars["team_id"]
 	userID := vars["user_id"]
-
-	numericTeamID, err := strconv.Atoi(teamID)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
 
 	numericUserID, err := strconv.Atoi(userID)
 	if err != nil {
@@ -123,12 +110,12 @@ func leftTeamHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !dboperation.TeamExists(numericTeamID) || !dboperation.UserExists(numericUserID) {
+	if !dboperation.UserExists(numericUserID) {
 		http.Error(w, "Team does not exist", http.StatusBadRequest)
 		return
 	}
 
-	if err := dboperation.LeaveTeam(numericTeamID, numericUserID); err != nil {
+	if err := dboperation.LeaveTeam(numericUserID); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

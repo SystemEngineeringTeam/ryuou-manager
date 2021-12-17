@@ -27,7 +27,8 @@ func main() {
 	// /admin/teams
 	r.HandleFunc("/admin/teams", handler.AdminTeamHandler)
 	r.HandleFunc("/admin/teams/{team_id:[0-9]+}", handler.AdminTeamRemoveHandler)
-	r.HandleFunc("/admin/teams/{team_id:[0-9]+}/{user_id:[0-9]+}", handler.AdminTeamWithIDHandler)
+	r.HandleFunc("/admin/teams/member/{user_id:[0-9]+}", handler.LeftTeamHandler)
+	r.HandleFunc("/admin/teams/{team_id:[0-9]+}/{user_id:[0-9]+}", handler.JoinTeamHandler)
 
 	http.ListenAndServe(":8080", r)
 }
