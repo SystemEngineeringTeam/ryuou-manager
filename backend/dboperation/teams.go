@@ -33,11 +33,11 @@ func JoinTeam(teamID, userID int) error {
 	return nil
 }
 
-func LeaveTeam(teamID, userID int) error {
+func LeaveTeam(userID int) error {
 	db := gormConnect()
 	defer db.Close()
 
-	if err := db.Debug().Model(&model.TeamMember{}).Where("team_id = ? and user_id = ?", teamID, userID).Delete(&model.TeamMember{}).Error; err != nil {
+	if err := db.Debug().Model(&model.TeamMember{}).Where("user_id = ?", userID).Delete(&model.TeamMember{}).Error; err != nil {
 		return err
 	}
 	return nil

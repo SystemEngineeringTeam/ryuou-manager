@@ -9,7 +9,7 @@ const Frame = () => {
 
   const doSubmit = async (e) => {
     const res = await axios.post(Path.Admin.Team, {
-      teamName: teamName.current.value,
+      name: teamName.current.value,
     });
     console.log(res);
   };
