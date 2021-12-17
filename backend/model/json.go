@@ -65,3 +65,10 @@ type LoginResponse struct {
 	TeamID    int    `json:"team_id"`
 	SessionID string `json:"session_id"`
 }
+
+type RankingResponse struct {
+	Rank   int    `json:"rank"`
+	TeamID int    `json:"teamID"`
+	Name   string `json:"name"`
+	Score  int    `json:"score"`
+}

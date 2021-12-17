@@ -28,5 +28,8 @@ func main() {
 	r.HandleFunc("/admin/teams", handler.SendAllTeamsHandler)
 	r.HandleFunc("/admin/teams/{team_id:[0-9]+}/{user_id:[0-9]+}", handler.AdminTeamHandler)
 
+	// /ranking
+	r.HandleFunc("/ranking", handler.RankingHandler)
+
 	http.ListenAndServe(":8080", r)
 }
