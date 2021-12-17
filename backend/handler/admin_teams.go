@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -15,6 +16,42 @@ func AdminTeamHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Methods", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "*")
 	switch r.Method {
+	case http.MethodGet:
+		sendAllTeamsHandler(w, r)
+	case http.MethodPost:
+		createTeamHandler(w, r)
+	}
+}
+
+func AdminTeamRemoveHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	vars := mux.Vars(r)
+	teamID := vars["team_id"]
+
+	numericTeamID, err := strconv.Atoi(teamID)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if !dboperation.TeamExists(numericTeamID) {
+		http.Error(w, "Team does not exist", http.StatusBadRequest)
+		return
+	}
+
+	if err := dboperation.RemoveTeam(numericTeamID); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func AdminTeamWithIDHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	switch r.Method {
 	case http.MethodPost:
 		joinTeamHandler(w, r)
 	case http.MethodDelete:
@@ -22,7 +59,7 @@ func AdminTeamHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func SendAllTeamsHandler(w http.ResponseWriter, r *http.Request) {
+func sendAllTeamsHandler(w http.ResponseWriter, r *http.Request) {
 	// allow cors
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "*")
@@ -95,4 +132,28 @@ func leftTeamHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func createTeamHandler(w http.ResponseWriter, r *http.Request) {
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var t struct {
+		Name string `json:"name"`
+	}
+	err = json.Unmarshal(b, &t)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if err := dboperation.InsertNewTeam(t.Name); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
 }
