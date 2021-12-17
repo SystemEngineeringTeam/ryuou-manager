@@ -24,6 +24,9 @@ func AdminTeamHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminTeamRemoveHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	vars := mux.Vars(r)
 	teamID := vars["team_id"]
 
@@ -45,6 +48,9 @@ func AdminTeamRemoveHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminTeamWithIDHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
 	switch r.Method {
 	case http.MethodPost:
 		joinTeamHandler(w, r)
