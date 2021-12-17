@@ -2,11 +2,14 @@ import React from "react";
 import { Box, Button, Paper, TextField, Grid } from "@mui/material";
 import Path from "../../.react.config";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const CreateForm = () => {
   const title = React.useRef(null);
   const description = React.useRef(null);
   const score = React.useRef(null);
+
+  const navigate = useNavigate();
 
   const doSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +21,8 @@ const CreateForm = () => {
 
     const res = await axios.post(Path.Admin.Question, data);
     console.log(res);
+
+    navigate("/admin");
   };
 
   return (

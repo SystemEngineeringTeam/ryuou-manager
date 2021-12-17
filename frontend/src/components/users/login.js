@@ -4,11 +4,14 @@ import axios from "axios";
 import React from "react";
 import Path from "../.react.config";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [cookie, setCookie, removeCookie] = useCookies();
+  const [cookie, setCookie] = useCookies();
   const email = React.useRef();
   const password = React.useRef();
+
+  const navigate = useNavigate();
 
   const doSubmit = async (e) => {
     e.preventDefault();
@@ -16,10 +19,21 @@ const Login = () => {
       email: email.current.value,
       password: password.current.value,
     });
+    if (res.status !== 200) {
+      alert("ログインに失敗しました");
+      return;
+    }
+
     console.log(res.data);
     setCookie("userID", res.data.user_id);
     setCookie("teamID", res.data.team_id);
     setCookie("sessionID", res.data.session_id);
+
+    if (res.data.session_id == "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/list");
+    }
   };
 
   console.log(cookie.userID);

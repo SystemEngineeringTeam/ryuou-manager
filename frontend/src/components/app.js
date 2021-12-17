@@ -11,6 +11,8 @@ import CreateForm from "./admin/questions/CreateForm";
 import SubmitList from "./admin/questions/SubmitList";
 import MembersList from "./admin/team/MembersList";
 import Ranking from "./ranking/Ranking";
+import Redirect from "./Redirect";
+import Admin from "./admin/Admin";
 
 const App = () => {
   return (
@@ -21,12 +23,14 @@ const App = () => {
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
         <Route path="questionInfo/:id" element={<QuestionInfo />} />
+        <Route path="admin" element={<Admin />} />
         <Route path="admin/team/create" element={<TeamCreate />} />
         <Route path="admin/team/division" element={<TeamDivision />} />
         <Route path="admin/team/members" element={<MembersList />} />
-        <Route path="admin/questions/create" element={<CreateForm />} />
+        <Route path="admin/question/create" element={<CreateForm />} />
         <Route path="admin/submits" element={<SubmitList />} />
         <Route path="ranking" element={<Ranking />} />
+        <Route path="*" element={<Redirect />} />
       </Routes>
     </BrowserRouter>
   );
