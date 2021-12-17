@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -72,6 +73,8 @@ func JoinTeamHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	teamID := vars["team_id"]
 	userID := vars["user_id"]
+
+	log.Println("hogehoge")
 
 	numericTeamID, err := strconv.Atoi(teamID)
 	if err != nil {

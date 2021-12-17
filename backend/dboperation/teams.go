@@ -37,7 +37,7 @@ func LeaveTeam(userID int) error {
 	db := gormConnect()
 	defer db.Close()
 
-	if err := db.Debug().Model(&model.TeamMember{}).Where("user_id = ?", userID).Delete(&model.TeamMember{}).Error; err != nil {
+	if err := db.Model(&model.TeamMember{}).Where("user_id = ?", userID).Delete(&model.TeamMember{}).Error; err != nil {
 		return err
 	}
 	return nil

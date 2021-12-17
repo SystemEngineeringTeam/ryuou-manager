@@ -12,20 +12,24 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import Path from "../../.react.config";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const Frame = () => {
-  const [cookie, setCookie, removeCookie] = useCookies();
+  const [cookie] = useCookies();
 
-  const [teamName, setTeamName] = React.useState("");
-  const [userName, setUserName] = React.useState("");
+  const navigate = useNavigate();
+
+  if (cookie.sessionID !== "admin") {
+    navigate("/");
+  }
+
+  const [teamID, setTeamID] = React.useState("");
+  const [userID, setUserID] = React.useState("");
 
   const [teamList, setTeamList] = React.useState([{ id: "", name: "" }]);
   const [userList, setUserList] = React.useState([
     { id: "", name: "", emal: "", password: "" },
   ]);
-
-  let teamID = null;
-  let userID = null;
 
   useEffect(() => {
     axios.get(Path.Admin.Team).then((res) => {
@@ -38,36 +42,18 @@ const Frame = () => {
   }, []);
 
   const handleTeamChange = (event) => {
-    setTeamName(event.target.value);
+    setTeamID(event.target.value);
   };
-  const handleUserNameChange = (event) => {
-    setUserName(event.target.value);
+  const handleUserIDChange = (event) => {
+    setUserID(event.target.value);
   };
 
   const doSubmit = async (e) => {
-    teamList.forEach((team) => {
-      if (team.name === teamName) {
-        teamID = team.id;
-      }
-    });
-
-    userList.forEach((user) => {
-      if (user.name === userName) {
-        userID = user.id;
-      }
-    });
-
-    axios.post(Path.Admin.Team + "/" + teamID + "/" + userID, {});
+    await axios.post(Path.Admin.Team + "/" + teamID + "/" + userID);
   };
 
   const doDelete = async (e) => {
-    userList.forEach((user) => {
-      if (user.name === userName) {
-        userID = user.id;
-      }
-    });
-
-    axios.delete(Path.Admin.Team + "/" + userID, {});
+    await axios.delete(Path.Admin.Team + "/member/" + userID);
   };
 
   return (
@@ -110,9 +96,9 @@ const Frame = () => {
               }}
             >
               <TextField
-                placeholder="TeamName"
-                type="TeamName"
-                inputRef={teamName}
+                placeholder="TeamID"
+                type="TeamID"
+                inputRef={teamID}
                 margin="normal"
               />
             </Box> */}
@@ -126,18 +112,16 @@ const Frame = () => {
             >
               <Box sx={{ minWidth: 260 }}>
                 <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    TeamName
-                  </InputLabel>
+                  <InputLabel id="demo-simple-select-label">TeamID</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={teamName}
+                    value={teamID}
                     label="Age"
                     onChange={handleTeamChange}
                   >
                     {teamList.map((team) => (
-                      <MenuItem value={team.name} key={team.id}>
+                      <MenuItem value={team.id} key={team.id}>
                         {team.name}
                       </MenuItem>
                     ))}
@@ -153,18 +137,16 @@ const Frame = () => {
             >
               <Box sx={{ minWidth: 260 }}>
                 <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">
-                    UserName
-                  </InputLabel>
+                  <InputLabel id="demo-simple-select-label">UserID</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={userName}
+                    value={userID}
                     label="teams"
-                    onChange={handleUserNameChange}
+                    onChange={handleUserIDChange}
                   >
                     {userList.map((user) => (
-                      <MenuItem value={user.name} key={user.id}>
+                      <MenuItem value={user.id} key={user.id}>
                         {user.name}
                       </MenuItem>
                     ))}
@@ -185,7 +167,7 @@ const Frame = () => {
             <Button
               type="submit"
               variant="contained"
-              onClick={doSubmit}
+              onClick={doDelete}
               color="error"
             >
               チーム除去
