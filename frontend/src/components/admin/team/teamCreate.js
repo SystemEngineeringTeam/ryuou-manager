@@ -2,13 +2,13 @@ import { Button, TextField, Grid, Paper } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import React from "react";
-import Path from "../.react.config";
+import Path from "../../.react.config";
 
 const Frame = () => {
   const teamName = React.useRef();
 
   const doSubmit = async (e) => {
-    const res = await axios.post(Path.Team, {
+    const res = await axios.post(Path.Admin.Team, {
       teamName: teamName.current.value,
     });
     console.log(res);

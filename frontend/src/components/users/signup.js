@@ -2,6 +2,7 @@ import React from "react";
 import { Button, TextField, Grid, Paper, Box } from "@mui/material";
 import axios from "axios";
 import Path from "../.react.config";
+import { useNavigate } from "react-router-dom";
 
 //
 
@@ -11,8 +12,11 @@ const Signup = () => {
   const password = React.useRef();
   const confirmPassword = React.useRef();
 
+  const navigate = useNavigate();
+
   const doSubmit = async (e) => {
     e.preventDefault();
+
     // axios
     if (password.current.value !== confirmPassword.current.value) {
       alert("Passwords do not match");
@@ -26,6 +30,7 @@ const Signup = () => {
 
     if (res.status === 201) {
       alert("User created successfully");
+      navigate("/login");
     }
   };
 

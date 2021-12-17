@@ -5,9 +5,10 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Signup from "./users/signup";
 import Login from "./users/login";
 import QuestionInfo from "./questions/list/questionInfo";
-import TeamCreate from "./team/teamCreate"
-import TeamDivision from "./team/teamDivision"
-
+import TeamCreate from "./admin/team/teamCreate"
+import TeamDivision from "./admin/team/teamDivision"
+import CreateForm from "./admin/questions/CreateForm";
+import SubmitList from "./admin/questions/SubmitList";
 
 const App = () => {
   return (
@@ -18,8 +19,10 @@ const App = () => {
         <Route path="signup" element={<Signup />} />
         <Route path="login" element={<Login />} />
         <Route path="questionInfo/:id" element={<QuestionInfo />} />
-        <Route path="teamCreate" element={<TeamCreate />} />
-        <Route path="teamDivision" element={<TeamDivision />} />
+        <Route path="admin/teamCreate" element={<TeamCreate />} />
+        <Route path="admin/teamDivision" element={<TeamDivision />} />
+        <Route path="admin/questions/create" element={<CreateForm />} />
+        <Route path="admin/submits" element={<SubmitList />} />
       </Routes>
     </BrowserRouter>
   );

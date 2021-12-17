@@ -13,6 +13,12 @@ type QuestionResponse struct {
 	IsPassed    bool   `json:"is_passed" gorm:"is_passed"`
 }
 
+type QuestionCreateRequest struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Score       int    `json:"score"`
+}
+
 type QuestionDetailResponse struct {
 	ID          int    `json:"id" gorm:"id"`
 	Title       string `json:"title" gorm:"title"`
@@ -54,7 +60,8 @@ func (u *User) HashPassword() {
 	u.Password = hashedPassword
 }
 
-type Session struct {
-	UserID    int    `gorm:"user_id" json:"userID"`
-	SessionID string `gorm:"session_id" json:"sessionID"`
+type LoginResponse struct {
+	UserID    int    `json:"user_id"`
+	TeamID    int    `json:"team_id"`
+	SessionID string `json:"session_id"`
 }

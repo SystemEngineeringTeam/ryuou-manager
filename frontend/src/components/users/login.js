@@ -3,8 +3,10 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import React from "react";
 import Path from "../.react.config";
+import { useCookies } from "react-cookie";
 
 const Login = () => {
+  const [cookie, setCookie, removeCookie] = useCookies();
   const email = React.useRef();
   const password = React.useRef();
 
@@ -14,8 +16,13 @@ const Login = () => {
       email: email.current.value,
       password: password.current.value,
     });
-    console.log(res);
+    console.log(res.data);
+    setCookie("userID", res.data.user_id);
+    setCookie("teamID", res.data.team_id);
+    setCookie("sessionID", res.data.session_id);
   };
+
+  console.log(cookie.userID);
 
   return (
     <Box
@@ -47,7 +54,7 @@ const Login = () => {
               <TextField
                 placeholder="password"
                 type="password"
-                ninputRef={password}
+                inputRef={password}
                 margin="normal"
                 label="password"
               />

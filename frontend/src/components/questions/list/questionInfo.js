@@ -27,7 +27,11 @@ const QuestionInfo = () => {
         <Grid item xs={8}>
           <Typography variant="h4">{question.title}</Typography>
           <hr />
-          <Typography gutterBottom variant="h6">
+          <Typography
+            gutterBottom
+            variant="h6"
+            style={{ whiteSpace: "pre-wrap" }}
+          >
             {question.description}
           </Typography>
           <AnswerForm questionID={id} />

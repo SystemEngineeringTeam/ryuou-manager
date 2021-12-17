@@ -51,7 +51,7 @@ func SelectAllSubmit() ([]model.SubmitResponse, error) {
 
 	var submits []model.SubmitResponse
 
-	if err := db.Table("team_submitted_questions").Joins("join questions on team_submitted_questions.question_id=questions.id").Select("team_submitted_questions.id, title,team_id, question_id, url ").Scan(&submits).Error; err != nil {
+	if err := db.Table("team_submitted_questions").Joins("join questions on team_submitted_questions.question_id=questions.id").Joins("join team_opened_questions toq on team_submitted_questions.question_id = toq.question_id and team_submitted_questions.team_id = toq.team_id").Select("team_submitted_questions.id, title,team_submitted_questions.team_id, team_submitted_questions.question_id, url ").Where("is_passed=?", false).Scan(&submits).Error; err != nil {
 		return nil, err
 	}
 

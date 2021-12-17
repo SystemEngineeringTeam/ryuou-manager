@@ -10,22 +10,32 @@ import {
 import { Box } from "@mui/system";
 import axios from "axios";
 import React, { useEffect } from "react";
-import Path from "../.react.config";
+import Path from "../../.react.config";
+import { useCookies } from "react-cookie";
 
 const Frame = () => {
+  const [cookie, setCookie, removeCookie] = useCookies();
+
   const [teamName, setTeamName] = React.useState("");
   const [userName, setUserName] = React.useState("");
 
-  const [team, setTeam] = React.useState(null);
+  const [teamList, setTeamList] = React.useState([{ id: "", name: "" }]);
+  const [userList, setUserList] = React.useState([
+    { id: "", name: "", emal: "", password: "" },
+  ]);
+
+  let teamID = null;
+  let userID = null;
 
   useEffect(() => {
-    axios.get(Path.Team).then((res) => {
-      setTeam(res.data);
-      console.log(res.data);
+    axios.get(Path.Admin.Team).then((res) => {
+      setTeamList(res.data);
+    });
+
+    axios.get(Path.User).then((res) => {
+      setUserList(res.data);
     });
   }, []);
-
-  console.log(team);
 
   const handleTeamChange = (event) => {
     setTeamName(event.target.value);
@@ -35,35 +45,23 @@ const Frame = () => {
   };
 
   const doSubmit = async (e) => {
-    console.log(teamName);
-    console.log(userName);
-    const res = await axios.post(Path.Login, {
-      teamName: teamName,
-      userName: userName,
+    teamList.forEach((team) => {
+      if (team.name === teamName) {
+        teamID = team.id;
+      }
     });
-    console.log(res);
+
+    userList.forEach((user) => {
+      if (user.name === userName) {
+        userID = user.id;
+      }
+    });
+
+    const res = await axios.post(
+      Path.Admin.Team + "/" + teamID + "/" + userID,
+      {}
+    );
   };
-
-  const teamList = [
-    {
-      id: 1,
-      name: "red",
-    },
-    {
-      id: 2,
-      name: "blue",
-    },
-    {
-      id: 3,
-      name: "green",
-    },
-  ];
-
-  const userNameList = [
-    { id: 1, name: "Fukuda" },
-    { id: 2, name: "Suzuki" },
-    { id: 3, name: "Toayma" },
-  ];
 
   return (
     <Box
@@ -158,7 +156,7 @@ const Frame = () => {
                     label="teams"
                     onChange={handleUserNameChange}
                   >
-                    {userNameList.map((user) => (
+                    {userList.map((user) => (
                       <MenuItem value={user.name} key={user.id}>
                         {user.name}
                       </MenuItem>

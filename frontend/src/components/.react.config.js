@@ -4,6 +4,10 @@ const Path = {
   Question: baseURL + "/questions",
   User: baseURL + "/users",
   Login: baseURL + "/users/login",
-  Team: baseURL + "/admin/teams",
+  Admin: {
+    Question: baseURL + "/admin/questions",
+    User: baseURL + "/admin/users",
+    Team: baseURL + "/admin/teams",
+  },
 };
 export default Path;
