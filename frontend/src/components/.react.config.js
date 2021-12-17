@@ -9,5 +9,6 @@ const Path = {
     User: baseURL + "/admin/users",
     Team: baseURL + "/admin/teams",
   },
+  Ranking: baseURL + "/ranking",
 };
 export default Path;
